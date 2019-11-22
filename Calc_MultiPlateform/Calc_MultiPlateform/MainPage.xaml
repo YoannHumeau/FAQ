@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Calc_MultiPlateform.MainPage"
+             Title="XamTestCalc"
+             BackgroundColor="#404040">
+
+    <ContentPage.Resources>
+        <Style x:Key="plainButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#eee"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="FontSize" Value="40"/>
+        </Style>
+        <Style x:Key="darkerButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#ddd"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="FontSize" Value="40"/>
+        </Style>
+        <Style x:Key="orangeButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#E8AD00"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="FontSize" Value="40"/>
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid x:Name="controlGrif" RowSpacing="1" ColumnSpacing="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="CalcValue" Text="CalcValue" Grid.Row="0" Grid.ColumnSpan="4" HorizontalTextAlignment="End" VerticalTextAlignment="Start" TextColor="LightGray" FontSize="40" Margin="0, 5, 5, 0"/>
+            <Label x:Name="ActualValue" Text="ActualValue" Grid.Row="0" Grid.ColumnSpan="4" HorizontalTextAlignment="End" VerticalTextAlignment="End" TextColor="White" FontSize="60"/>
+            <Button Text="+/-" Grid.Row="1" Grid.Column="1" Style="{StaticResource darkerButton}"/>
+            <Button Text="%" Grid.Row="1" Grid.Column="2" Style="{StaticResource darkerButton}"/>
+            <Button Text="C" Grid.Row="1" Grid.Column="0" Style="{StaticResource darkerButton}" Clicked="OnOperatorClicked"/>
+            <Button Text="/" Grid.Row="1" Grid.Column="3" Style="{StaticResource orangeButton}" Clicked="OnOperatorClicked"/>
+            <Button Text="x" Grid.Row="2" Grid.Column="3" Style="{StaticResource orangeButton}" Clicked="OnOperatorClicked"/>
+            <Button Text="-" Grid.Row="3" Grid.Column="3" Style="{StaticResource orangeButton}" Clicked="OnOperatorClicked"/>
+            <Button Text="+" Grid.Row="4" Grid.Column="3" Style="{StaticResource orangeButton}" Clicked="OnOperatorClicked"/>
+            <Button Text="=" Grid.Row="5" Grid.Column="3" Style="{StaticResource orangeButton}" Clicked="OnEqualClicked"/>
+            <Button Text="7" Grid.Row="2" Grid.Column="0" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="8" Grid.Row="2" Grid.Column="1" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="9" Grid.Row="2" Grid.Column="2" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="4" Grid.Row="3" Grid.Column="0" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="5" Grid.Row="3" Grid.Column="1" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="6" Grid.Row="3" Grid.Column="2" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="1" Grid.Row="4" Grid.Column="0" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="2" Grid.Row="4" Grid.Column="1" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="3" Grid.Row="4" Grid.Column="2" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="0" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource plainButton}" Clicked="OnNumberClicked"/>
+            <Button Text="." Grid.Row="5" Grid.Column="2" Style="{StaticResource plainButton}"/>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>

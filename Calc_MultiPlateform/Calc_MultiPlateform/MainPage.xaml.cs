@@ -47,7 +47,7 @@ namespace Calc_MultiPlateform
                     break;
                 case "+":
                 case "-":
-                case "*":
+                case "x":
                 case "/":
                     if (_actualValue != "0")
                     {

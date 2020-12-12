@@ -9,15 +9,28 @@ namespace FAQ.Datas.Facades
     public interface IFacade
     {
         /// <summary>
+        /// Get all questions
+        /// </summary>
+        /// <returns><see cref="List{QuestionModel}"/></returns>
+        public IEnumerable<QuestionModel> GetQuestions();
+
+        /// <summary>
+        /// Get a specific question by the id
+        /// </summary>
+        /// <param name="id">Id of the question</param>
+        /// <returns></returns>
+        public QuestionModel GetQuestion(int id);
+
+        /// <summary>
         /// Create a question
         /// </summary>
         /// <param name="question"><see cref="QuestionModel"/></param>
         public void CreateQuestion(QuestionModel question);
 
         /// <summary>
-        /// Get all questions
+        /// Remove a question
         /// </summary>
-        /// <returns><see cref="List{QuestionModel}"/></returns>
-        public IEnumerable<QuestionModel> GetQuestions();
+        /// <param name="question"></param>
+        public bool RemoveQuestion(int id);
     }
 }

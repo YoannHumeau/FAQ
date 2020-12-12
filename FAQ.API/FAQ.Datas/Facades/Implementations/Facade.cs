@@ -24,19 +24,35 @@ namespace FAQ.Datas.Facades.Implementations
         }
 
         /// <inheritdoc/>
-        public void CreateQuestion(QuestionModel question)
+        public IEnumerable<QuestionModel> GetQuestions()
         {
-            _questionDAO.CreateQuestion(question);
-
-            return;
+            return _questionDAO.GetQuestions();
         }
 
         /// <inheritdoc/>
-        public IEnumerable<QuestionModel> GetQuestions()
+        public QuestionModel GetQuestion(int id)
         {
-            var result = _questionDAO.GetQuestions();
+            return _questionDAO.GetQuestion(id);
+        }
 
-            return result;
+        /// <inheritdoc/>
+        public void CreateQuestion(QuestionModel question)
+        {
+            _questionDAO.CreateQuestion(question);
+        }
+
+        /// <inheritdoc/>
+        public bool RemoveQuestion(int id)
+        {
+            try
+            {
+                _questionDAO.RemoveQuestion(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

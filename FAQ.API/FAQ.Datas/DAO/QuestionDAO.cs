@@ -34,12 +34,40 @@ namespace FAQ.Datas.DAO
         }
 
         /// <summary>
+        /// Get a specific question by the id
+        /// </summary>
+        /// <param name="id">Id of the question</param>
+        /// <returns><see cref="QuestionModel"/></returns>
+        internal QuestionModel GetQuestion(int id)
+        {
+            return _faqContext.Questions.Find(id);
+        }
+
+        /// <summary>
         /// Create a question
         /// </summary>
-        /// <param name="question"><see cref="QuestionModel"/></param>
+        /// <param name="question"><see cref="QuestionModel"/> Question to create</param>
         internal void CreateQuestion(QuestionModel question)
         {
             _faqContext.Questions.Add(question);
+
+            try
+            {
+                _faqContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Remove a question from  the id
+        /// </summary>
+        /// <param name="question"><see cref="QuestionModel"/> Question to remove</param>
+        internal void RemoveQuestion(int id)
+        {
+            _faqContext.Questions.Remove(new QuestionModel { Id = id });
 
             try
             {

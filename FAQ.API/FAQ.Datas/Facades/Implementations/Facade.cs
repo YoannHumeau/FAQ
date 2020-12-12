@@ -5,10 +5,17 @@ using System.Collections.Generic;
 
 namespace FAQ.Datas.Facades.Implementations
 {
+    /// <summary>
+    /// Facade class
+    /// </summary>
     public class Facade : IFacade
     {
         private readonly QuestionDAO _questionDAO;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="connectionString"></param>
         public Facade(string connectionString)
         {
             var faqContext = new FAQContext(connectionString);
@@ -16,6 +23,7 @@ namespace FAQ.Datas.Facades.Implementations
             _questionDAO = new QuestionDAO(faqContext);
         }
 
+        /// <inheritdoc/>
         public void CreateQuestion(QuestionModel question)
         {
             _questionDAO.CreateQuestion(question);
@@ -23,6 +31,7 @@ namespace FAQ.Datas.Facades.Implementations
             return;
         }
 
+        /// <inheritdoc/>
         public IEnumerable<QuestionModel> GetQuestions()
         {
             var result = _questionDAO.GetQuestions();

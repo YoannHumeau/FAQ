@@ -1,6 +1,5 @@
 ﻿using FAQ.Datas.Facades;
 using FAQ.Datas.Facades.Implementations;
-using FAQ.Datas.Models;
 using FAQ.Tests.DataExamples;
 using FluentAssertions;
 using System.Linq;
@@ -8,8 +7,10 @@ using Xunit;
 using Xunit.Extensions.Ordering;
 
 namespace FAQ.Tests.DatasTests
-
 {
+    /// <summary>
+    /// Facade class test
+    /// </summary>
     public class FacadeTests
     {
         private readonly IFacade _facade;
@@ -18,6 +19,9 @@ namespace FAQ.Tests.DatasTests
         private readonly string _dbTestsModel = "FAQ-Tests-Model.db";
         private readonly string _dbTests = "FAQ-Tests.db";
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public FacadeTests()
         {
             // Copy the database prepared for the tests (ovveride an existing db test)
@@ -36,12 +40,9 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact, Order(2)]
-        public void CreateQuestionOK()
+        public void CreateQuestion_OK()
         {
-            var question = new QuestionModel
-            {
-                Content = "This is a new question"
-            };
+            var question = QuestionsDataExamples.NewQuestion;
 
             // Insert the new question
             _facade.CreateQuestion(question);

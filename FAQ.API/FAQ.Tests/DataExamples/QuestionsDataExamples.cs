@@ -11,5 +11,10 @@ namespace FAQ.Tests.DataExamples
             new QuestionModel { Id = 2, Content = "The second question" },
             new QuestionModel { Id = 3, Content = "The third question" }
         };
+
+        public static QuestionModel NewQuestion = new QuestionModel
+        {
+            Content = "This is a new question"
+        };
     }
 }

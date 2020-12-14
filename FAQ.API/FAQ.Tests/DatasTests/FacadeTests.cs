@@ -78,7 +78,7 @@ namespace FAQ.Tests.DatasTests
 
             var result = _facade.GetQuestion("en_US", questionId);
 
-            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId - 1),
+            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1),
                     options => options.Excluding(q => q.QuestionTranslates)
                 );
         }
@@ -91,6 +91,22 @@ namespace FAQ.Tests.DatasTests
             var result = _facade.GetQuestion("fr_FR", questionId);
 
             result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1),
+                    options => options.Excluding(q => q.QuestionTranslates)
+                );
+        }
+
+        [Fact]
+        public void GetQuestion_No_NoFrenchTranslate_LoadDefaultEnglish()
+        {
+            int questionId = 2;
+
+            var resultRemove = _facade.RemoveQuestionTranslate("fr_FR", questionId);
+
+            Assert.True(resultRemove);
+
+            var result = _facade.GetQuestion("fr_FR", questionId);
+
+            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1),
                     options => options.Excluding(q => q.QuestionTranslates)
                 );
         }

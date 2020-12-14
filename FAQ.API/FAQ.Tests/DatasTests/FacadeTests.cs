@@ -159,6 +159,7 @@ namespace FAQ.Tests.DatasTests
             questionsListFrenchAddedOne.Remove(questionsListFrenchAddedOne.Last());
         }
 
+        [Fact]
         public void CreateQuestion_KO_NoFrenchTranslate()
         {
             // Create a newquestion for insert properly
@@ -174,6 +175,10 @@ namespace FAQ.Tests.DatasTests
             var questionsListEnglishAddedOne = QuestionsDataExamples.QuestionsListEnglish;
             questionsListEnglishAddedOne.Add(QuestionsDataExamples.NewQuestionEnglish);
 
+            // Add translates to the statics questions (French) but with in english for the last
+            var questionsListFrenchAddedOneWithError = QuestionsDataExamples.QuestionsListFrench;
+            questionsListFrenchAddedOneWithError.Add(QuestionsDataExamples.NewQuestionEnglish);
+
             // Create the new question in DB
             _facade.CreateQuestion(newQuestion);
 
@@ -186,12 +191,13 @@ namespace FAQ.Tests.DatasTests
             // Check that is the no translate in french return english translate
             var facade = new Facade(_dbPath + _dbTests);
             var resultFrench = facade.GetQuestions("fr_FR");
-            resultFrench.Should().BeEquivalentTo(questionsListEnglishAddedOne,
+            resultFrench.Should().BeEquivalentTo(questionsListFrenchAddedOneWithError,
                 options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)
                 );
 
             // Clean the statics questions added (statics keeps in memory for other tests)
             questionsListEnglishAddedOne.Remove(questionsListEnglishAddedOne.Last());
+            questionsListFrenchAddedOneWithError.Remove(questionsListFrenchAddedOneWithError.Last());
         }
 
         //[Fact, Order(11)]

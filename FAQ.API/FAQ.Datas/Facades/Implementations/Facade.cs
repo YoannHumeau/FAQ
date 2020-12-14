@@ -2,6 +2,7 @@
 using FAQ.Datas.DataAccess;
 using FAQ.Datas.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FAQ.Datas.Facades.Implementations
 {
@@ -24,15 +25,24 @@ namespace FAQ.Datas.Facades.Implementations
         }
 
         /// <inheritdoc/>
-        public IEnumerable<QuestionModel> GetQuestions()
+        public IEnumerable<QuestionModel> GetQuestions(string language)
         {
-            return _questionDAO.GetQuestions();
+            var result = _questionDAO.GetQuestions(language);
+
+            // Check we have any question with no translatation in the language, if not => load default language
+            foreach (var question in result)
+            {
+                if (question?.QuestionTranslates.Any() == false)
+                    result.ElementAt(question.Id-1).QuestionTranslates = _questionDAO.GetQuestion("en_US", question.Id).QuestionTranslates;
+            }
+
+            return result;
         }
 
         /// <inheritdoc/>
-        public QuestionModel GetQuestion(int id)
+        public QuestionModel GetQuestion(string language, int id)
         {
-            return _questionDAO.GetQuestion(id);
+            return _questionDAO.GetQuestion(language, id);
         }
 
         /// <inheritdoc/>

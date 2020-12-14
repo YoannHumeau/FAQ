@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FAQ.Datas.Models
 {
     /// <summary>
     /// Content text of question class
     /// </summary>
-    public class QuestionContentModel
+    public class QuestionTranslateModel
     {
         /// <summary>
         /// Technical ID
@@ -24,6 +25,11 @@ namespace FAQ.Datas.Models
         /// <summary>
         /// Text of the question
         /// </summary>
-        public string Text { get; set; }
+        public string QuestionText { get; set; }
+
+        /// <summary>
+        /// Id of the question model
+        /// </summary>
+        public int QuestionModelId { get; set; }
     }
 }

@@ -12,14 +12,14 @@ namespace FAQ.Datas.Facades
         /// Get all questions
         /// </summary>
         /// <returns><see cref="List{QuestionModel}"/></returns>
-        public IEnumerable<QuestionModel> GetQuestions();
+        public IEnumerable<QuestionModel> GetQuestions(string language);
 
         /// <summary>
         /// Get a specific question by the id
         /// </summary>
         /// <param name="id">Id of the question</param>
         /// <returns></returns>
-        public QuestionModel GetQuestion(int id);
+        public QuestionModel GetQuestion(string language, int id);
 
         /// <summary>
         /// Create a question

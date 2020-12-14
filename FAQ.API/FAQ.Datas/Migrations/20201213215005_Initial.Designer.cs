@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FAQ.Datas.Migrations
 {
     [DbContext(typeof(FAQContext))]
-    [Migration("20201211153938_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201213215005_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,21 +46,41 @@ namespace FAQ.Datas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AnswerModelId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.ToTable("Questions");
                 });
 
+            modelBuilder.Entity("FAQ.Datas.Models.QuestionTranslateModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Language")
+                        .HasMaxLength(5)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("QuestionModelId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("QuestionText")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionModelId");
+
+                    b.HasIndex("Language", "QuestionModelId")
+                        .IsUnique();
+
+                    b.ToTable("QuestionsTranslates");
+                });
+
             modelBuilder.Entity("FAQ.Datas.Models.AnswerModel", b =>
                 {
                     b.HasOne("FAQ.Datas.Models.QuestionModel", "Question")
-                        .WithMany("Answers")
+                        .WithMany()
                         .HasForeignKey("QuestionModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -68,9 +88,19 @@ namespace FAQ.Datas.Migrations
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("FAQ.Datas.Models.QuestionTranslateModel", b =>
+                {
+                    b.HasOne("FAQ.Datas.Models.QuestionModel", null)
+                        .WithMany("QuestionTranslates")
+                        .HasForeignKey("QuestionModelId")
+                        .HasConstraintName("ForeignKey_QuestionTranslateModel_QuestionModel")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FAQ.Datas.Models.QuestionModel", b =>
                 {
-                    b.Navigation("Answers");
+                    b.Navigation("QuestionTranslates");
                 });
 #pragma warning restore 612, 618
         }

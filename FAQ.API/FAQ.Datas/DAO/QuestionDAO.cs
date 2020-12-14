@@ -1,5 +1,6 @@
 ﻿using FAQ.Datas.DataAccess;
 using FAQ.Datas.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,10 +28,14 @@ namespace FAQ.Datas.DAO
         /// <summary>
         /// Get questions
         /// </summary>
-        /// <returns><see cref="QuestionModel"/></returns>
-        internal IEnumerable<QuestionModel> GetQuestions()
+        /// <returns>List of <see cref="QuestionModel"/></returns>
+        internal IEnumerable<QuestionModel> GetQuestions(string language)
         {
-            return _faqContext.Questions.AsQueryable().ToList();
+            var result = _faqContext.Questions
+                .Include(q => q.QuestionTranslates.Where(qt => qt.Language == language))
+                .ToList();
+
+            return result;
         }
 
         /// <summary>
@@ -38,9 +43,12 @@ namespace FAQ.Datas.DAO
         /// </summary>
         /// <param name="id">Id of the question</param>
         /// <returns><see cref="QuestionModel"/></returns>
-        internal QuestionModel GetQuestion(int id)
+        internal QuestionModel GetQuestion(string language, int id)
         {
-            return _faqContext.Questions.Find(id);
+            return _faqContext.Questions
+                .Include(q => q.QuestionTranslates.Where(qt => qt.Language == language))
+                .FirstOrDefault(q => q.Id == id)
+                ;
         }
 
         /// <summary>

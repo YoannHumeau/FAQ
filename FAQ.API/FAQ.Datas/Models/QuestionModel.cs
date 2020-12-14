@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace FAQ.Datas.Models
 {
@@ -18,17 +20,30 @@ namespace FAQ.Datas.Models
         /// <summary>
         /// Content of the question
         /// </summary>
-        public string Content { get; set; }
+        /// <example>This is a question ?</example>
+        [NotMapped]
+        public string TextContent 
+        {
+            get
+            {
+                return QuestionTranslates.ElementAt(0).QuestionText;
+            }
+        }
+
+        /// <summary>
+        /// List used by EFcore for One-To-Many relation
+        /// </summary>
+        public ICollection<QuestionTranslateModel> QuestionTranslates { get; set; }
 
         /// <summary>
         /// Answer foreign Key
         /// </summary>
-        public int AnswerModelId { get; set; }
+        //public int AnswerModelId { get; set; }
 
         /// <summary>
         /// Answers for the question
         /// </summary>
         /// <example><see cref="List{AnswerModel}"/></example>
-        public ICollection<AnswerModel> Answers { get; set; }
+        //public ICollection<AnswerModel> Answers { get; set; }
     }
 }

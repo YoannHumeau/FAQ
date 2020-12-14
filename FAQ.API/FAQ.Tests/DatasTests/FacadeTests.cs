@@ -58,7 +58,7 @@ namespace FAQ.Tests.DatasTests
 
         // TODO : Implement me
         //[Fact]
-        //public void GetAllQuestions_KO_French_Miss_One_Translate()
+        //public void GetAllQuestions_NO_French_Miss_One_Translate()
         //{
         //    var result = _facade.GetQuestions("fr_FR");
 
@@ -96,7 +96,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void GetQuestion_KO_QuestionNotFoundEnglish()
+        public void GetQuestion_NO_QuestionNotFoundEnglish()
         {
             int questionId = 99999;
 
@@ -106,7 +106,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void GetQuestion_KO_QuestionNotFoundFrench()
+        public void GetQuestion_NO_QuestionNotFoundFrench()
         {
             int questionId = 99998;
 
@@ -161,7 +161,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void CreateQuestion_KO_NoFrenchTranslate_LoadEnglish()
+        public void CreateQuestion_NO_NoFrenchTranslate_LoadDefaultEnglish()
         {
             // Create a newquestion for insert properly
             var newQuestion = new QuestionModel
@@ -202,7 +202,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void CreateQuestion_KO_NoEnglish_Translate()
+        public void CreateQuestion_NO_NoEnglish_Translate()
         {
             // Create a newquestion for insert not properly
             var newQuestion = new QuestionModel
@@ -232,7 +232,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void RemoveQuestion_KO()
+        public void RemoveQuestion_NO()
         {
             var questionId = 99999;
 

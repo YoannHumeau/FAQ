@@ -64,9 +64,16 @@ namespace FAQ.Datas.Facades.Implementations
         /// <inheritdoc/>
         public bool RemoveQuestion(int id)
         {
+            var question = _questionDAO.GetQuestion("en_US", id);
+
+            if (question == null)
+            { 
+                return false;
+            }
+
             try
             {
-                _questionDAO.RemoveQuestion(id);
+                _questionDAO.RemoveQuestion(question);
                 return true;
             }
             catch
@@ -78,7 +85,7 @@ namespace FAQ.Datas.Facades.Implementations
         /// <inheritdoc/>
         public bool RemoveQuestionTranslate(string language, int questionParentId)
         {
-            var questionTranslate = _questionDAO.GetQuestionTranslate(language, questionParentId);//  QuestionsTranslates.Find(id)
+            var questionTranslate = _questionDAO.GetQuestionTranslate(language, questionParentId);
 
             if (questionTranslate == null || questionTranslate.Language == "en_US")
             {

@@ -73,9 +73,9 @@ namespace FAQ.Datas.DAO
         /// Remove a question from  the id
         /// </summary>
         /// <param name="question"><see cref="QuestionModel"/> Question to remove</param>
-        internal void RemoveQuestion(int id)
+        internal void RemoveQuestion(QuestionModel question)
         {
-            _faqContext.Questions.Remove(new QuestionModel { Id = id });
+            _faqContext.Questions.Remove(question);
 
             try
             {

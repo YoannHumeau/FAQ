@@ -200,15 +200,19 @@ namespace FAQ.Tests.DatasTests
             questionsListFrenchAddedOneWithError.Remove(questionsListFrenchAddedOneWithError.Last());
         }
 
-        //[Fact, Order(11)]
-        //public void Remove_OK()
-        //{
-        //    int questionId = 2;
-        //    var result = _facade.RemoveQuestion(questionId);
-        //    result.Should().BeTrue();
-        //    var questions = _facade.GetQuestions();
-        //    questions.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglishRemovedOne);
-        //}
+        [Fact, Order(11)]
+        public void Remove_OK()
+        {
+            var questionId = _facade.GetQuestions("en_US").Last().Id;
+
+            var result = _facade.RemoveQuestion(questionId);
+
+            result.Should().BeTrue();
+
+            var questions = _facade.GetQuestion("en_US", questionId);
+            questions.Should().BeNull();
+        }
+
         //[Fact, Order(12)]
         //public void Remove_KO_BadQuestionId()
         //{
@@ -227,26 +231,26 @@ namespace FAQ.Tests.DatasTests
         {
             // Get the id of the french question translate in the last question (Linq used to check that we have a french translate)
             //var idQuestionTranslateToRemove = _facade.GetQuestions("fr_FR").Last().QuestionTranslates.Where(qt => qt.Language == "fr_FR").FirstOrDefault().Id;
-            var idQuestion = _facade.GetQuestions("fr_FR").Last().Id;
+            var questionId = _facade.GetQuestions("fr_FR").Last().Id;
 
-            var resultRemove = _facade.RemoveQuestionTranslate("fr_FR", idQuestion);
+            var resultRemove = _facade.RemoveQuestionTranslate("fr_FR", questionId);
 
             Assert.True(resultRemove);
 
-            var resultGet = _facade.GetQuestion("fr_FR", idQuestion);
+            var resultGet = _facade.GetQuestion("fr_FR", questionId);
             Assert.True(resultGet.TextContent == QuestionsDataExamples.QuestionsListEnglish.Last().TextContent);
         }
 
         [Fact]
         public void RemoveQuestionTranslate_OK_English()
         {
-            var idQuestion = _facade.GetQuestions("en_US").Last().Id;
+            var questionId = _facade.GetQuestions("en_US").Last().Id;
 
-            var resultRemove = _facade.RemoveQuestionTranslate("en_US", idQuestion);
+            var resultRemove = _facade.RemoveQuestionTranslate("en_US", questionId);
 
             Assert.False(resultRemove);
 
-            var resultGet = _facade.GetQuestion("en_US", idQuestion);
+            var resultGet = _facade.GetQuestion("en_US", questionId);
             Assert.True(resultGet.TextContent == QuestionsDataExamples.QuestionsListEnglish.Last().TextContent);
         }
 

@@ -87,9 +87,14 @@ namespace FAQ.Datas.DAO
             }
         }
 
-        internal void RemoveQuestionTranslate(int id)
+        internal QuestionTranslateModel GetQuestionTranslate(string language, int questionParentId)
         {
-            _faqContext.QuestionsTranslates.Remove(_faqContext.QuestionsTranslates.Find(id));
+            return _faqContext.QuestionsTranslates.Where(qt => qt.Language == language && qt.QuestionModelId == questionParentId).FirstOrDefault();
+        }
+
+        internal void RemoveQuestionTranslate(QuestionTranslateModel questionTranslate)
+        {
+            _faqContext.QuestionsTranslates.Remove(questionTranslate);
 
             try
             {

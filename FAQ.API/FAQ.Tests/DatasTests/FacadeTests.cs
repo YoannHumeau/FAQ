@@ -226,14 +226,27 @@ namespace FAQ.Tests.DatasTests
         public void RemoveQuestionTranslate_OK_French()
         {
             // Get the id of the french question translate in the last question (Linq used to check that we have a french translate)
-            var idQuestionTranslateToRemove = _facade.GetQuestions("fr_FR").Last().QuestionTranslates.Where(qt => qt.Language == "fr_FR").FirstOrDefault().Id;
+            //var idQuestionTranslateToRemove = _facade.GetQuestions("fr_FR").Last().QuestionTranslates.Where(qt => qt.Language == "fr_FR").FirstOrDefault().Id;
             var idQuestion = _facade.GetQuestions("fr_FR").Last().Id;
 
-            var resultRemove = _facade.RemoveQuestionTranslate(idQuestionTranslateToRemove);
+            var resultRemove = _facade.RemoveQuestionTranslate("fr_FR", idQuestion);
 
             Assert.True(resultRemove);
 
             var resultGet = _facade.GetQuestion("fr_FR", idQuestion);
+            Assert.True(resultGet.TextContent == QuestionsDataExamples.QuestionsListEnglish.Last().TextContent);
+        }
+
+        [Fact]
+        public void RemoveQuestionTranslate_OK_English()
+        {
+            var idQuestion = _facade.GetQuestions("en_US").Last().Id;
+
+            var resultRemove = _facade.RemoveQuestionTranslate("en_US", idQuestion);
+
+            Assert.False(resultRemove);
+
+            var resultGet = _facade.GetQuestion("en_US", idQuestion);
             Assert.True(resultGet.TextContent == QuestionsDataExamples.QuestionsListEnglish.Last().TextContent);
         }
 

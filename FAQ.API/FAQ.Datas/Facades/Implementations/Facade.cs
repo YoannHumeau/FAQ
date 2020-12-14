@@ -50,6 +50,11 @@ namespace FAQ.Datas.Facades.Implementations
             return result;
         }
 
+        //public QuestionTranslateModel GetQuestionTranslate(int id)
+        //{
+        //    var result =
+        //}
+
         /// <inheritdoc/>
         public void CreateQuestion(QuestionModel question)
         {
@@ -71,11 +76,18 @@ namespace FAQ.Datas.Facades.Implementations
         }
 
         /// <inheritdoc/>
-        public bool RemoveQuestionTranslate(int id)
+        public bool RemoveQuestionTranslate(string language, int questionParentId)
         {
+            var questionTranslate = _questionDAO.GetQuestionTranslate(language, questionParentId);//  QuestionsTranslates.Find(id)
+
+            if (questionTranslate == null || questionTranslate.Language == "en_US")
+            {
+                return false;
+            }
+
             try
             {
-                _questionDAO.RemoveQuestionTranslate(id);
+                _questionDAO.RemoveQuestionTranslate(questionTranslate);
                 return true;
             }
             catch

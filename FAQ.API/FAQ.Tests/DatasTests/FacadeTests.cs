@@ -35,6 +35,16 @@ namespace FAQ.Tests.DatasTests
 
         #region Get questions
         [Fact]
+        public void GetAllQuestions_OK_English()
+        {
+            var result = _facade.GetQuestions("en_US");
+
+            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish,
+                    options => options.Excluding(q => q.QuestionTranslates)
+                );
+        }
+
+        [Fact]
         public void GetAllQuestions_OK_French()
         {
             var result = _facade.GetQuestions("fr_FR");
@@ -61,11 +71,13 @@ namespace FAQ.Tests.DatasTests
         //}
 
         [Fact]
-        public void GetAllQuestions_OK_English()
+        public void GetQuestion_OK_English()
         {
-            var result = _facade.GetQuestions("en_US");
+            int questionId = 2;
 
-            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish,
+            var result = _facade.GetQuestion("en_US", questionId);
+
+            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId - 1),
                     options => options.Excluding(q => q.QuestionTranslates)
                 );
         }
@@ -83,19 +95,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void GetQuestion_OK_English()
-        {
-            int questionId = 2;
-
-            var result = _facade.GetQuestion("en_US", questionId);
-
-            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId - 1),
-                    options => options.Excluding(q => q.QuestionTranslates)
-                );
-        }
-
-        [Fact]
-        public void GetQuestion_KO_QuestionNotFound_English()
+        public void GetQuestion_KO_QuestionNotFoundEnglish()
         {
             int questionId = 99999;
 
@@ -105,7 +105,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void GetQuestion_KO_QuestionNotFound_French()
+        public void GetQuestion_KO_QuestionNotFoundFrench()
         {
             int questionId = 99998;
 
@@ -116,17 +116,83 @@ namespace FAQ.Tests.DatasTests
 
         #endregion
 
-        //#region Create/Remove questions
-        //[Fact, Order(10)]
-        //public void CreateQuestion_OK()
-        //{
-        //    var question = QuestionsDataExamples.NewQuestionEnglish;
+        #region Create/Remove questions
+        [Fact]
+        public void CreateQuestion_OK_All()
+        {
+            // Create a newquestion for insert properly
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0),
+                    QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0),
+                }
+            };
 
-        //    _facade.CreateQuestion(question);
+            // Add translates to the statics questions (English)
+            var questionsListEnglishAddedOne = QuestionsDataExamples.QuestionsListEnglish;
+            questionsListEnglishAddedOne.Add(QuestionsDataExamples.NewQuestionEnglish);
 
-        //    var result = _facade.GetQuestions().AsQueryable().ToList();
-        //    result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglishAddedOne);
-        //}
+            // Add translates to the statics questions (French)
+            var questionsListFrenchAddedOne = QuestionsDataExamples.QuestionsListFrench;
+            questionsListFrenchAddedOne.Add(QuestionsDataExamples.NewQuestionFrench);
+
+            // Create the new question in DB
+            _facade.CreateQuestion(newQuestion);
+
+            // Check that is good in english
+            var resultEnglish = _facade.GetQuestions("en_US");
+            resultEnglish.Should().BeEquivalentTo(questionsListEnglishAddedOne,
+                options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)
+                );
+
+            // Check that is good in french
+            var facade = new Facade(_dbPath + _dbTests);
+            var resultFrench = facade.GetQuestions("fr_FR");
+            resultFrench.Should().BeEquivalentTo(questionsListFrenchAddedOne,
+                options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)
+                );
+
+            // Clean the statics questions added (statics keeps in memory for other tests)
+            questionsListEnglishAddedOne.Remove(questionsListEnglishAddedOne.Last());
+            questionsListFrenchAddedOne.Remove(questionsListFrenchAddedOne.Last());
+        }
+
+        public void CreateQuestion_KO_NoFrenchTranslate()
+        {
+            // Create a newquestion for insert properly
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0),
+                }
+            };
+
+            // Add translates to the statics questions (English)
+            var questionsListEnglishAddedOne = QuestionsDataExamples.QuestionsListEnglish;
+            questionsListEnglishAddedOne.Add(QuestionsDataExamples.NewQuestionEnglish);
+
+            // Create the new question in DB
+            _facade.CreateQuestion(newQuestion);
+
+            // Check that is good in english
+            var resultEnglish = _facade.GetQuestions("en_US");
+            resultEnglish.Should().BeEquivalentTo(questionsListEnglishAddedOne,
+                options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)
+                );
+
+            // Check that is the no translate in french return english translate
+            var facade = new Facade(_dbPath + _dbTests);
+            var resultFrench = facade.GetQuestions("fr_FR");
+            resultFrench.Should().BeEquivalentTo(questionsListEnglishAddedOne,
+                options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)
+                );
+
+            // Clean the statics questions added (statics keeps in memory for other tests)
+            questionsListEnglishAddedOne.Remove(questionsListEnglishAddedOne.Last());
+        }
 
         //[Fact, Order(11)]
         //public void Remove_OK()
@@ -151,6 +217,6 @@ namespace FAQ.Tests.DatasTests
         //    var questions = _facade.GetQuestions();
         //    questions.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsList);
         //}
-        //#endregion
+        #endregion
     }
 }

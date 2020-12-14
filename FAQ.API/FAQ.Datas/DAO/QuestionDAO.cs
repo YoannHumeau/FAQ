@@ -7,11 +7,6 @@ using System.Linq;
 
 namespace FAQ.Datas.DAO
 {
-    public class MySuperClass
-    {
-        public string Title { get; set; }
-    }
-
     internal class QuestionDAO
     {
         private readonly FAQContext _faqContext;
@@ -87,11 +82,21 @@ namespace FAQ.Datas.DAO
             }
         }
 
+        /// <summary>
+        /// Get a specific question translate
+        /// </summary>
+        /// <param name="language">Language of the translate</param>
+        /// <param name="questionParentId">Id of the question</param>
+        /// <returns></returns>
         internal QuestionTranslateModel GetQuestionTranslate(string language, int questionParentId)
         {
             return _faqContext.QuestionsTranslates.Where(qt => qt.Language == language && qt.QuestionModelId == questionParentId).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Remove a specific question translate
+        /// </summary>
+        /// <param name="questionTranslate"><see cref="QuestionTranslateModel"/> Question translate</param>
         internal void RemoveQuestionTranslate(QuestionTranslateModel questionTranslate)
         {
             _faqContext.QuestionsTranslates.Remove(questionTranslate);

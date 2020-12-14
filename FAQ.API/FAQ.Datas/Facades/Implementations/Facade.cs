@@ -50,14 +50,14 @@ namespace FAQ.Datas.Facades.Implementations
             return result;
         }
 
-        //public QuestionTranslateModel GetQuestionTranslate(int id)
-        //{
-        //    var result =
-        //}
-
         /// <inheritdoc/>
         public void CreateQuestion(QuestionModel question)
         {
+            if (question.QuestionTranslates.Where(qt => qt.Language == "en_US").Any() == false)
+            {
+                throw new System.Exception(Resources.En_resources.Need_enUS_Language);
+            }
+
             _questionDAO.CreateQuestion(question);
         }
 

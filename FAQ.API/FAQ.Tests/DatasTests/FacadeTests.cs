@@ -3,6 +3,7 @@ using FAQ.Datas.Facades.Implementations;
 using FAQ.Datas.Models;
 using FAQ.Tests.DataExamples;
 using FluentAssertions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -116,7 +117,7 @@ namespace FAQ.Tests.DatasTests
 
         #endregion
 
-        #region Create/Remove questions
+        #region Create questions
         [Fact]
         public void CreateQuestion_OK_All()
         {
@@ -160,7 +161,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void CreateQuestion_KO_NoFrenchTranslate()
+        public void CreateQuestion_KO_NoFrenchTranslate_LoadEnglish()
         {
             // Create a newquestion for insert properly
             var newQuestion = new QuestionModel
@@ -200,8 +201,25 @@ namespace FAQ.Tests.DatasTests
             questionsListFrenchAddedOneWithError.Remove(questionsListFrenchAddedOneWithError.Last());
         }
 
-        [Fact, Order(11)]
-        public void Remove_OK()
+        [Fact]
+        public void CreateQuestion_KO_NoEnglish_Translate()
+        {
+            // Create a newquestion for insert not properly
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0),
+                }
+            };
+
+            Assert.Throws<Exception>(() => _facade.CreateQuestion(newQuestion));
+        }
+        #endregion
+
+        #region Remove question
+        [Fact]
+        public void RemoveQuestion_OK()
         {
             var questionId = _facade.GetQuestions("en_US").Last().Id;
 
@@ -213,24 +231,22 @@ namespace FAQ.Tests.DatasTests
             questions.Should().BeNull();
         }
 
-        //[Fact, Order(12)]
-        //public void Remove_KO_BadQuestionId()
-        //{
-        //    int questionId = 999999;
-        //    var result = _facade.RemoveQuestion(questionId);
-        //    result.Should().BeFalse();
-        //    var questions = _facade.GetQuestions();
-        //    questions.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsList);
-        //}
+        [Fact]
+        public void RemoveQuestion_KO()
+        {
+            var questionId = 99999;
+
+            var result = _facade.RemoveQuestion(questionId);
+
+            result.Should().BeFalse();
+        }
         #endregion
 
         #region Remove question translate
-
         [Fact]
         public void RemoveQuestionTranslate_OK_French()
         {
             // Get the id of the french question translate in the last question (Linq used to check that we have a french translate)
-            //var idQuestionTranslateToRemove = _facade.GetQuestions("fr_FR").Last().QuestionTranslates.Where(qt => qt.Language == "fr_FR").FirstOrDefault().Id;
             var questionId = _facade.GetQuestions("fr_FR").Last().Id;
 
             var resultRemove = _facade.RemoveQuestionTranslate("fr_FR", questionId);
@@ -253,7 +269,6 @@ namespace FAQ.Tests.DatasTests
             var resultGet = _facade.GetQuestion("en_US", questionId);
             Assert.True(resultGet.TextContent == QuestionsDataExamples.QuestionsListEnglish.Last().TextContent);
         }
-
         #endregion
     }
 }

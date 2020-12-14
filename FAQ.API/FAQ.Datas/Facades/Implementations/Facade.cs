@@ -42,7 +42,12 @@ namespace FAQ.Datas.Facades.Implementations
         /// <inheritdoc/>
         public QuestionModel GetQuestion(string language, int id)
         {
-            return _questionDAO.GetQuestion(language, id);
+            var result = _questionDAO.GetQuestion(language, id);
+
+            if (result?.QuestionTranslates.Any() == false)
+                result = _questionDAO.GetQuestion("en_US", id);
+
+            return result;
         }
 
         /// <inheritdoc/>
@@ -57,6 +62,20 @@ namespace FAQ.Datas.Facades.Implementations
             try
             {
                 _questionDAO.RemoveQuestion(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool RemoveQuestionTranslate(int id)
+        {
+            try
+            {
+                _questionDAO.RemoveQuestionTranslate(id);
                 return true;
             }
             catch

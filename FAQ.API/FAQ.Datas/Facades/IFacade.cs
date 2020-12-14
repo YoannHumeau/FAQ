@@ -32,5 +32,11 @@ namespace FAQ.Datas.Facades
         /// </summary>
         /// <param name="question"></param>
         public bool RemoveQuestion(int id);
+
+        /// <summary>
+        /// Remove a question translate
+        /// </summary>
+        /// <param name="question"></param>
+        public bool RemoveQuestionTranslate(int id);
     }
 }

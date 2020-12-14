@@ -86,5 +86,19 @@ namespace FAQ.Datas.DAO
                 throw e;
             }
         }
+
+        internal void RemoveQuestionTranslate(int id)
+        {
+            _faqContext.QuestionsTranslates.Remove(_faqContext.QuestionsTranslates.Find(id));
+
+            try
+            {
+                _faqContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

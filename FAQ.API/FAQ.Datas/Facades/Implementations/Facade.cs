@@ -24,6 +24,7 @@ namespace FAQ.Datas.Facades.Implementations
             _questionDAO = new QuestionDAO(faqContext);
         }
 
+        #region Questions
         /// <inheritdoc/>
         public IEnumerable<QuestionModel> GetQuestions(string language)
         {
@@ -81,7 +82,9 @@ namespace FAQ.Datas.Facades.Implementations
                 return false;
             }
         }
+        #endregion
 
+        #region QuestionTranslate
         /// <inheritdoc/>
         public bool RemoveQuestionTranslate(string language, int questionParentId)
         {
@@ -102,5 +105,6 @@ namespace FAQ.Datas.Facades.Implementations
                 return false;
             }
         }
+        #endregion
     }
 }

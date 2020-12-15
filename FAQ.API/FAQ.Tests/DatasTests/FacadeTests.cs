@@ -72,6 +72,34 @@ namespace FAQ.Tests.DatasTests
         //}
 
         [Fact]
+        public void GetAllQuestions_NO_French_Miss_One_Translate()
+        {
+            int questionId = 2;
+
+            // Get the sentence in memory for recovering sentence
+            var backupFrenchTranslate = QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1).QuestionTranslates.ElementAt(0).QuestionText;
+            
+            // Put the english translate in the french list to compare for the test
+            QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1).QuestionTranslates.ElementAt(0).QuestionText =
+                QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).QuestionTranslates.ElementAt(0).QuestionText;
+
+            // Remove a translate from database
+            var resultRemove = _facade.RemoveQuestionTranslate("fr_FR", questionId);
+            Assert.True(resultRemove);
+
+            // Get all the questions
+            var result = _facade.GetQuestions("fr_FR");
+
+            // Test if the result is OK
+            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListFrench,
+                    options => options.Excluding(q => q.QuestionTranslates)
+                );
+
+            // Put back the original sentence in french
+            QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId - 1).QuestionTranslates.ElementAt(0).QuestionText = backupFrenchTranslate;
+        }
+
+        [Fact]
         public void GetQuestion_OK_English()
         {
             int questionId = 2;

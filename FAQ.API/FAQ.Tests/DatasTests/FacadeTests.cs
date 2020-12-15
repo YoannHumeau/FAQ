@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Xunit.Extensions.Ordering;
 
 namespace FAQ.Tests.DatasTests
 {
@@ -18,8 +17,8 @@ namespace FAQ.Tests.DatasTests
     {
         private readonly IFacade _facade;
 
+        // Path to have the Dtabase prepared for tests
         private readonly string _dbPath = "..\\..\\..\\";
-        //private readonly string _dbTestsModel = "..\\FAQ.Datas\\FAQ.db";
         private readonly string _dbTestsModel = "FAQ-Tests-Model.db";
         private readonly string _dbTests = "FAQ-Tests.db";
 
@@ -55,21 +54,6 @@ namespace FAQ.Tests.DatasTests
                 options => options.Excluding(o => o.QuestionTranslates)
             );
         }
-
-        // TODO : Implement me
-        //[Fact]
-        //public void GetAllQuestions_NO_French_Miss_One_Translate()
-        //{
-        //    var result = _facade.GetQuestions("fr_FR");
-
-        //    var listWithOneMissing = QuestionsDataExamples.QuestionsListFrench;
-        //    listWithOneMissing.ElementAt(1).QuestionTranslates = QuestionsDataExamples.QuestionsListEnglish.ElementAt(1).QuestionTranslates;
-
-        //    result.Should().BeEquivalentTo(
-        //        QuestionsDataExamples.QuestionsListFrench,
-        //        options => options.Excluding(o => o.QuestionTranslates)
-        //    );
-        //}
 
         [Fact]
         public void GetAllQuestions_NO_French_Miss_One_Translate()

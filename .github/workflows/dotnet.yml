@@ -1,0 +1,25 @@
+name: FAQ project (.NET)
+
+on:
+  push:
+    branches: [ github-action-test ]
+  pull_request:
+    branches: [ github-action-test ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Restore dependencies
+      run: dotnet restore FAQ.API/
+    - name: Build
+      run: dotnet build FAQ.API/ --no-restore
+    - name: Test
+      run: dotnet test FAQ.API/ --verbosity normal

@@ -1,6 +1,7 @@
 ﻿using FAQ.Datas.DAO;
 using FAQ.Datas.DataAccess;
 using FAQ.Datas.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +13,7 @@ namespace FAQ.Datas.Facades.Implementations
     public class Facade : IFacade
     {
         private readonly QuestionDAO _questionDAO;
+        private readonly AnswerDAO _answerDAO;
 
         /// <summary>
         /// Default constructor
@@ -22,6 +24,7 @@ namespace FAQ.Datas.Facades.Implementations
             var faqContext = new FAQContext(connectionString);
 
             _questionDAO = new QuestionDAO(faqContext);
+            _answerDAO = new AnswerDAO(faqContext);
         }
 
         #region Questions
@@ -34,7 +37,13 @@ namespace FAQ.Datas.Facades.Implementations
             foreach (var question in result)
             {
                 if (question?.QuestionTranslates.Any() == false)
+                {
                     result.ElementAt(question.Id-1).QuestionTranslates = _questionDAO.GetQuestion("en_US", question.Id).QuestionTranslates;
+
+                    // In case of double language, clear the default language answer
+                    if (result.ElementAt(question.Id - 1).Answers.Where(qt => qt.Language == "en_US").Any())
+                        result.ElementAt(question.Id-1).Answers.Remove(result.ElementAt(question.Id-1).Answers.Where(qt => qt.Language == "en_US").ElementAt(0));
+                }
             }
 
             return result;
@@ -45,8 +54,15 @@ namespace FAQ.Datas.Facades.Implementations
         {
             var result = _questionDAO.GetQuestion(language, id);
 
+            if (result == null)
+                return null;
+
             if (result?.QuestionTranslates.Any() == false)
                 result = _questionDAO.GetQuestion("en_US", id);
+
+            // In case of double language, clear the default language answer
+            if (result.Answers.Count > 1)
+                result.Answers.Remove(result.Answers.Where(a => a.Language == language).FirstOrDefault());
 
             return result;
         }
@@ -105,6 +121,29 @@ namespace FAQ.Datas.Facades.Implementations
                 return false;
             }
         }
+        #endregion
+
+        #region Answers
+        /// <summary>
+        /// Update an answer
+        /// </summary>
+        /// <param name="answer"> Answer to update</param>
+        /// <returns>Answer updated</returns>
+        public AnswerModel UpdateAnswer(AnswerModel answer)
+        {
+            var answerFound = _answerDAO.FindAnswer(answer);
+
+            if (answerFound == null)
+            {
+                throw new Exception(Resources.En_resources.AnswerDoesNotExists);
+            }
+            else
+            {
+                _answerDAO.UpdateAnswer(answer);
+                return _answerDAO.FindAnswer(answer);
+            }
+        }
+
         #endregion
     }
 }

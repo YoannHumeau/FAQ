@@ -22,19 +22,13 @@ namespace FAQ.Datas.Models
         public string Language { get; set; }
 
         /// <summary>
-        /// Content text of the answer
+        /// Text of the answer
         /// </summary>
-        /// <example>You can this, using like that !</example>
-        public string ContentText { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
-        /// Question foreign Key
+        /// Id of the question model
         /// </summary>
         public int QuestionModelId { get; set; }
-
-        /// <summary>
-        /// Question linked to the answer
-        /// </summary>
-        public QuestionModel Question { get; set; } 
     }
 }

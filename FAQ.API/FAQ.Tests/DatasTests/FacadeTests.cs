@@ -298,5 +298,15 @@ namespace FAQ.Tests.DatasTests
             Assert.True(resultGet.TextContent == QuestionsDataExamples.QuestionsListEnglish.Last().TextContent);
         }
         #endregion
+
+        #region Get Answers
+
+        [Fact]
+        public void GetAnswer_OK_English()
+        {
+
+        }
+
+        #endregion
     }
 }

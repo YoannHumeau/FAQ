@@ -28,6 +28,7 @@ namespace FAQ.Datas.DAO
         {
             var result = _faqContext.Questions
                 .Include(q => q.QuestionTranslates.Where(qt => qt.Language == language))
+                .Include(q => q.Answers.Where(a => a.Language == language))
                 .ToList();
 
             return result;
@@ -40,10 +41,12 @@ namespace FAQ.Datas.DAO
         /// <returns><see cref="QuestionModel"/></returns>
         internal QuestionModel GetQuestion(string language, int id)
         {
-            return _faqContext.Questions
+            var result = _faqContext.Questions
                 .Include(q => q.QuestionTranslates.Where(qt => qt.Language == language))
-                .FirstOrDefault(q => q.Id == id)
-                ;
+                .Include(q => q.Answers.Where(a => a.Language == language))
+                .FirstOrDefault(q => q.Id == id);
+
+            return result;
         }
 
         /// <summary>

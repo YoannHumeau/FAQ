@@ -2,14 +2,16 @@
 using FAQ.Datas.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FAQ.Datas.Migrations
 {
     [DbContext(typeof(FAQContext))]
-    partial class FAQContextModelSnapshot : ModelSnapshot
+    [Migration("20201215225624_AddAnswers")]
+    partial class AddAnswers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

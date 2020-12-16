@@ -36,14 +36,9 @@ namespace FAQ.Datas.Models
         public ICollection<QuestionTranslateModel> QuestionTranslates { get; set; }
 
         /// <summary>
-        /// Answer foreign Key
-        /// </summary>
-        //public int AnswerModelId { get; set; }
-
-        /// <summary>
         /// Answers for the question
         /// </summary>
         /// <example><see cref="List{AnswerModel}"/></example>
-        //public ICollection<AnswerModel> Answers { get; set; }
+        public ICollection<AnswerModel> Answers { get; set; }
     }
 }

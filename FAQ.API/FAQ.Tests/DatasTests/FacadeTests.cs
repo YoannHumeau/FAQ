@@ -5,6 +5,7 @@ using FAQ.Tests.DataExamples;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -18,9 +19,8 @@ namespace FAQ.Tests.DatasTests
         private readonly IFacade _facade;
 
         // Path to have the Dtabase prepared for tests
-        private readonly string _dbPath = "..\\..\\..\\";
-        private readonly string _dbTestsModel = "FAQ-Tests-Model.db";
-        private readonly string _dbTests = "FAQ-Tests.db";
+        private readonly string _dbTestsModel = Path.Combine("..", "..", "..", "FAQ-Tests-Model.db");
+        private readonly string _dbTests = Path.Combine("..", "..", "..", "FAQ-Tests.db");
 
         /// <summary>
         /// Default constructor
@@ -28,9 +28,9 @@ namespace FAQ.Tests.DatasTests
         public FacadeTests()
         {
             // Copy the database prepared for the tests (ovveride an existing db test)
-            System.IO.File.Copy(_dbPath + _dbTestsModel, _dbPath + _dbTests, true);
+            System.IO.File.Copy(_dbTestsModel, _dbTests, true);
 
-            _facade = new Facade(_dbPath + _dbTests);
+            _facade = new Facade(_dbTests);
         }
 
         #region Get questions
@@ -177,7 +177,7 @@ namespace FAQ.Tests.DatasTests
                 );
 
             // Check that is good in french
-            var facade = new Facade(_dbPath + _dbTests);
+            var facade = new Facade(_dbTests);
             var resultFrench = facade.GetQuestions("fr_FR");
             resultFrench.Should().BeEquivalentTo(questionsListFrenchAddedOne,
                 options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)
@@ -218,7 +218,7 @@ namespace FAQ.Tests.DatasTests
                 );
 
             // Check that is the no translate in french return english translate
-            var facade = new Facade(_dbPath + _dbTests);
+            var facade = new Facade(_dbTests);
             var resultFrench = facade.GetQuestions("fr_FR");
             resultFrench.Should().BeEquivalentTo(questionsListFrenchAddedOneWithError,
                 options => options.Excluding(q => q.QuestionTranslates).Excluding(q => q.Id)

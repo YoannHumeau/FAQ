@@ -301,11 +301,6 @@ namespace FAQ.Tests.DatasTests
 
         #region Get Answers
 
-        [Fact]
-        public void GetAnswer_OK_English()
-        {
-
-        }
 
         #endregion
     }

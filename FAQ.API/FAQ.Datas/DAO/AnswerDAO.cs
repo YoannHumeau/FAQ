@@ -43,14 +43,5 @@ namespace FAQ.Datas.DAO
         {
             return _faqContext.Answers.Find(id);
         }
-
-        //internal IEnumerable<AnswerModel> GetAnswers(string language)
-        //{
-        //    var result = _faqContext.Answers
-        //        .Where(a => (!String.IsNullOrWhiteSpace(language) ? a.Language == language : true ))
-        //        .ToList();
-
-        //    return result;
-        //}
     }
 }

@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore FAQ.API/
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build FAQ.API/ --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test FAQ.API/ --no-build --verbosity normal

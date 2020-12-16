@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAQ.Datas", "FAQ.Datas\FAQ.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FAQ.Tests", "FAQ.Tests\FAQ.Tests.csproj", "{17CE1C66-7E2E-4FC4-8A12-0636B47EE5D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GithubAction", "GithubAction", "{3B879BC8-33A2-4AEA-B279-162FF7260B8F}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

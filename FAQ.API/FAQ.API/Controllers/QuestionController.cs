@@ -12,6 +12,7 @@ using FAQ.Datas.Models;
 using AutoMapper;
 using FAQ.API.Models.Dto;
 using System.ComponentModel.DataAnnotations;
+using FAQ.Datas.Facades;
 
 namespace FAQ.API.Controllers
 {
@@ -21,13 +22,13 @@ namespace FAQ.API.Controllers
     {
         private readonly ILogger<QuestionController> _logger;
         private readonly IMapper _mapper;
-        private readonly Facade _facade;
+        private readonly IFacade _facade;
 
-        public QuestionController(ILogger<QuestionController> logger, IMapper mapper)
+        public QuestionController(ILogger<QuestionController> logger, IMapper mapper, IFacade facade)
         {
             _logger = logger;
             _mapper = mapper;
-            _facade = new Facade(Path.Combine("FAQ-Tests.db"));
+            _facade = facade;
         }
 
         [HttpGet("{id}")]

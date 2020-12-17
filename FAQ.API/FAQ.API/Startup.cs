@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using FAQ.Datas.Facades;
+using FAQ.Datas.Facades.Implementations;
 
 namespace FAQ.API
 {
@@ -26,6 +28,8 @@ namespace FAQ.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<IFacade>(sp => new Facade(Configuration.GetConnectionString("Default")));
 
             services.AddControllers();
         }

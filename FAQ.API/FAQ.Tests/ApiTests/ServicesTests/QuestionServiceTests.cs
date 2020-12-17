@@ -19,7 +19,7 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             _questionService = new QuestionService(_mockFacade.Object);
         }
 
-        #region Get question 
+        #region Get all questions
         [Fact]
         public void GetAllQuestions_OK_English()
         {

@@ -1,10 +1,6 @@
 name: .NET
 
-#on:
-#  push:
-#    branches: [ github-action-test2 ]
-#  pull_request:
-#    branches: [ github-action-test2 ]
+on: [push, pull_request]
 
 jobs:
   build:

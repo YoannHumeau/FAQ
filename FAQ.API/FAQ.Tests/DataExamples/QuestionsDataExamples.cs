@@ -39,15 +39,6 @@ namespace FAQ.Tests.DataExamples
         };
         #endregion
 
-        #region AnswerDto
-        public static List<AnswerModelDto> AnswersDtoListEnglish = new List<AnswerModelDto>
-        {
-            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(0).Language, Text = AnswersListEnglish.ElementAt(0).Text },
-            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(1).Language, Text = AnswersListEnglish.ElementAt(1).Text },
-            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(2).Language, Text = AnswersListEnglish.ElementAt(2).Text }
-        };
-        #endregion
-
         #region Questions
         public static QuestionModel NewQuestionEnglish = new QuestionModel
         {
@@ -112,6 +103,50 @@ namespace FAQ.Tests.DataExamples
         };
         #endregion
 
+        #region New answer
+        public static AnswerModel NewAnswerEnglish = new AnswerModel
+        {
+            Language = "en_US",
+            Text = "The fourth answer"
+        };
+
+        public static AnswerModel NewAnswerFrench = new AnswerModel
+        {
+            Language = "fr_FR",
+            Text = "La quatrième réponse"
+        };
+        #endregion
+
+        #region Update answer
+        public static AnswerModel UpdateAnswerEnglish = new AnswerModel
+        {
+            Language = "en_US",
+            Text = "The updated second answer"
+        };
+
+        public static AnswerModel UpdateAnswerFrench = new AnswerModel
+        {
+            Language = "fr_FR",
+            Text = "La deuxième réponse modifiée"
+        };
+        #endregion
+
+        #region AnswerDto
+        public static List<AnswerModelDto> AnswersDtoListEnglish = new List<AnswerModelDto>
+        {
+            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(0).Language, Text = AnswersListEnglish.ElementAt(0).Text },
+            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(1).Language, Text = AnswersListEnglish.ElementAt(1).Text },
+            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(2).Language, Text = AnswersListEnglish.ElementAt(2).Text }
+        };
+
+        public static List<AnswerModelDto> AnswersDtoListFrench = new List<AnswerModelDto>
+        {
+            new AnswerModelDto { Language = AnswersListFrench.ElementAt(0).Language, Text = AnswersListFrench.ElementAt(0).Text },
+            new AnswerModelDto { Language = AnswersListFrench.ElementAt(1).Language, Text = AnswersListFrench.ElementAt(1).Text },
+            new AnswerModelDto { Language = AnswersListFrench.ElementAt(2).Language, Text = AnswersListFrench.ElementAt(2).Text }
+        };
+        #endregion
+
         #region QuestionDto
         public static List<QuestionModelDto> QuestionsDtoListEnglish = new List<QuestionModelDto>
         {
@@ -135,65 +170,27 @@ namespace FAQ.Tests.DataExamples
             }
         };
 
+        public static List<QuestionModelDto> QuestionsDtoListFrench = new List<QuestionModelDto>
+        {
+            new QuestionModelDto
+            {
+                Id = 1,
+                TextContent = ListQuestionsTranslatesFrench.ElementAt(0).First().QuestionText,
+                Answers = new List<AnswerModelDto> { AnswersDtoListFrench.ElementAt(0) }
+            },
+            new QuestionModelDto
+            {
+                Id = 2,
+                TextContent = ListQuestionsTranslatesFrench.ElementAt(1).First().QuestionText,
+                Answers = new List<AnswerModelDto> { AnswersDtoListFrench.ElementAt(1) }
+            },
+            new QuestionModelDto
+            {
+                Id = 3,
+                TextContent = ListQuestionsTranslatesFrench.ElementAt(2).First().QuestionText,
+                Answers = new List<AnswerModelDto> { AnswersDtoListFrench.ElementAt(2) }
+            }
+        };
         #endregion
-
-        //public static List<QuestionModel> QuestionsListEnglish = new List<QuestionModel>
-        //{
-        //    new QuestionModel { Id = 1, TextContent = ListQuestionsTranslatesEnglishString.ElementAt(0) },
-        //    new QuestionModel { Id = 2, TextContent = ListQuestionsTranslatesEnglishString.ElementAt(1) },
-        //    new QuestionModel { Id = 3, TextContent = ListQuestionsTranslatesEnglishString.ElementAt(2) }
-        //};
-
-        //public static List<QuestionModel> QuestionsListEnglishAddedOne = new List<QuestionModel>
-        //{
-        //    QuestionsListEnglish.ElementAt(0),
-        //    QuestionsListEnglish.ElementAt(1),
-        //    QuestionsListEnglish.ElementAt(2),
-        //    NewQuestionEnglish
-        //};
-
-        //public static List<QuestionModel> QuestionsListFrenchhAddedOne = new List<QuestionModel>
-        //{
-        //    QuestionsListEnglish.ElementAt(0),
-        //    QuestionsListEnglish.ElementAt(1),
-        //    QuestionsListEnglish.ElementAt(2),
-        //    NewQuestionEnglish
-        //};
-
-        //public static List<QuestionModel> QuestionsListEnglishRemovedOne = new List<QuestionModel>
-        //{
-        //    QuestionsListEnglish.ElementAt(0),
-        //    QuestionsListEnglish.ElementAt(2)
-        //};
-
-        public static List<QuestionModel> QuestionsListFrenchRemovedOne = new List<QuestionModel>
-        {
-            QuestionsListFrench.ElementAt(0),
-            QuestionsListFrench.ElementAt(2)
-        };
-
-        public static AnswerModel NewAnswerEnglish = new AnswerModel
-        {
-            Language = "en_US",
-            Text = "The fourth answer"
-        };
-
-        public static AnswerModel NewAnswerFrench = new AnswerModel
-        {
-            Language = "fr_FR",
-            Text = "La quatrième réponse"
-        };
-
-        public static AnswerModel UpdateAnswerEnglish = new AnswerModel
-        {
-            Language = "en_US",
-            Text = "The updated second answer"
-        };
-
-        public static AnswerModel UpdateAnswerFrench = new AnswerModel
-        {
-            Language = "fr_FR",
-            Text = "La deuxième réponse modifiée"
-        };
     }
 }

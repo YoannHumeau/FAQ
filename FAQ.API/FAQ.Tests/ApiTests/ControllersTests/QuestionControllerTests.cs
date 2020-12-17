@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using FAQ.API;
 using FAQ.API.Controllers;
 using FAQ.API.Models.Dto;
 using FAQ.API.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace FAQ.Tests.ApiTests.ControllersTests
@@ -16,9 +12,10 @@ namespace FAQ.Tests.ApiTests.ControllersTests
     public class QuestionControllerTests
     {
         public string _defaultLanguage = "en_US";
-        public readonly Mock<IQuestionService> _mockFacade;
+
         public readonly QuestionController _questionController;
 
+        public readonly Mock<IQuestionService> _mockFacade;
         private readonly Mock<ILogger<QuestionController>> _mockLogger;
         private readonly IMapper _mapper;
 
@@ -42,6 +39,17 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             var result = _questionController.GetQuestions(_defaultLanguage);
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
+        }
+
+        [Fact]
+        public void GetQuestions_OK_French()
+        {
+            _mockFacade.Setup(x => x.GetQuestions(_defaultLanguage))
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench);
+
+            var result = _questionController.GetQuestions(_defaultLanguage);
+
+            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench);
         }
     }
 }

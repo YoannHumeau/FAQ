@@ -122,6 +122,28 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Once);
         }
+
+        [Fact]
+        public void createQuestion_OK_French()
+        {
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                     DataExamples.QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0)
+                },
+                Answers = new List<AnswerModel>
+                {
+                    DataExamples.QuestionsDataExamples.NewAnswerFrench
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
+
+            _questionService.CreateQuestion(newQuestion);
+
+            _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Once);
+        }
         #endregion
     }
 }

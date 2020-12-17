@@ -300,8 +300,45 @@ namespace FAQ.Tests.DatasTests
         #endregion
 
         #region Get Answers
+        [Fact]
+        public void CreateAnswer_OK_French()
+        {
+            // Create a newquestion for insert properly
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0),
+                    QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.NewAnswerEnglish
+                }
+            };
 
+            // Create the new question in DB, facade used for creation (fix bug of cache)
+            var facade = new Facade(_dbTests);
+            facade.CreateQuestion(newQuestion);
+            var newQuestionId = facade.GetQuestions("fr_FR").Last().Id;
 
+            // Prepare the data test to check with
+            newQuestion.QuestionTranslates.Remove(newQuestion.QuestionTranslates.Where(qt => qt.Language == "en_US").FirstOrDefault());
+            newQuestion.Answers.Remove(newQuestion.Answers.Where(a => a.Language == "en_US").FirstOrDefault());
+            QuestionsDataExamples.NewAnswerFrench.QuestionModelId = newQuestionId;
+
+            // Insert the answer in database
+            facade.CreateAnswer(QuestionsDataExamples.NewAnswerFrench);
+
+            // Check the question with answer inserted is OK
+            facade = new Facade(_dbTests);
+            var questionResult = facade.GetQuestion("fr_FR", newQuestionId);
+            questionResult.Should().BeEquivalentTo(newQuestion);
+
+            // Clean the static data test
+            QuestionsDataExamples.NewAnswerFrench.QuestionModelId = 0;
+            QuestionsDataExamples.NewAnswerFrench.Id = 0;
+        }
         #endregion
     }
 }

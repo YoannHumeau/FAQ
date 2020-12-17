@@ -38,5 +38,18 @@ namespace FAQ.Datas.Facades
         /// </summary>
         /// <param name="question"></param>
         public bool RemoveQuestionTranslate(string language, int questionParentId);
+
+        /// <summary>
+        /// Create an answer
+        /// </summary>
+        /// <param name="answer">Answer to create</param>
+        public void CreateAnswer(AnswerModel answer);
+
+        /// <summary>
+        /// Update an answer
+        /// </summary>
+        /// <param name="answer">Answer to update</param>
+        /// <returns>Answer updated</returns>
+        public AnswerModel UpdateAnswer(AnswerModel answer);
     }
 }

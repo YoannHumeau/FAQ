@@ -18,6 +18,20 @@ namespace FAQ.Datas.DAO
             _faqContext = faqContext;
         }
 
+        internal void CreateAnswer(AnswerModel answer)
+        {
+            _faqContext.Add(answer);
+
+            try
+            {
+                _faqContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         internal void UpdateAnswer(AnswerModel answer)
         {
             _faqContext.Answers.Update(answer);

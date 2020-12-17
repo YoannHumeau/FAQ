@@ -136,5 +136,17 @@ namespace FAQ.Tests.DataExamples
             QuestionsListFrench.ElementAt(0),
             QuestionsListFrench.ElementAt(2)
         };
+
+        public static AnswerModel NewAnswerEnglish = new AnswerModel
+        {
+            Language = "en_US",
+            Text = "The fourth answer"
+        };
+
+        public static AnswerModel NewAnswerFrench = new AnswerModel
+        {
+            Language = "fr_FR",
+            Text = "La quatrième réponse"
+        };
     }
 }

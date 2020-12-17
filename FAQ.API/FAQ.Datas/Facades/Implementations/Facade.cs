@@ -124,11 +124,13 @@ namespace FAQ.Datas.Facades.Implementations
         #endregion
 
         #region Answers
-        /// <summary>
-        /// Update an answer
-        /// </summary>
-        /// <param name="answer"> Answer to update</param>
-        /// <returns>Answer updated</returns>
+        /// <inheritdoc/>
+        public void CreateAnswer(AnswerModel answer)
+        {
+            _answerDAO.CreateAnswer(answer);
+        }
+
+        /// <inheritdoc/>
         public AnswerModel UpdateAnswer(AnswerModel answer)
         {
             var answerFound = _answerDAO.FindAnswer(answer);

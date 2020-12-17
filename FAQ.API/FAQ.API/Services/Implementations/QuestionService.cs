@@ -1,5 +1,6 @@
 ﻿using FAQ.Datas.Facades;
 using FAQ.Datas.Models;
+using System.Collections.Generic;
 
 namespace FAQ.API.Services.Implementations
 {
@@ -14,6 +15,14 @@ namespace FAQ.API.Services.Implementations
         public QuestionService(IFacade facade)
         {
             _facade = facade;
+        }
+
+        ///<inheritdoc/>
+        public IEnumerable<QuestionModel> GetQuestions(string language)
+        {
+            Helpers.LanguageHelper.CheckLanguage(ref language);
+
+            return _facade.GetQuestions(language);
         }
 
         ///<inheritdoc/>

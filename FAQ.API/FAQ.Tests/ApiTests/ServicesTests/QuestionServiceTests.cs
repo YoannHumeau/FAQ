@@ -161,6 +161,7 @@ namespace FAQ.Tests.ApiTests.ServicesTests
                 }
             };
 
+            // Put a bad language in the static dataset test
             newQuestion.QuestionTranslates.ElementAt(0).Language = "gr_GR";
 
             _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
@@ -169,6 +170,35 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Never);
 
+            // Put the original value in the static dataset test
+            newQuestion.QuestionTranslates.ElementAt(0).Language = "en_US";
+        }
+
+        [Fact]
+        public void createQuestion_NO_BadLanguageAnswer()
+        {
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                     DataExamples.QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0)
+                },
+                Answers = new List<AnswerModel>
+                {
+                    DataExamples.QuestionsDataExamples.NewAnswerEnglish
+                }
+            };
+
+            // Put a bad language in the static dataset test
+            newQuestion.QuestionTranslates.ElementAt(0).Language = "gr_GR";
+
+            _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
+
+            Assert.Throws<Exception>(() => _questionService.CreateQuestion(newQuestion));
+
+            _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Never);
+
+            // Put the original value in the static dataset test
             newQuestion.QuestionTranslates.ElementAt(0).Language = "en_US";
         }
         #endregion

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FAQ.API.Services.Implementations;
 using FAQ.Datas.Facades;
+using FAQ.Datas.Models;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -95,6 +97,30 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             var result = _questionService.GetQuestion(language, questionId);
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
+        }
+        #endregion
+
+        #region Create question
+        [Fact]
+        public void CreateQuestion_OK_English()
+        {
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                     DataExamples.QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0)
+                },
+                Answers = new List<AnswerModel>
+                {
+                    DataExamples.QuestionsDataExamples.NewAnswerEnglish
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
+
+            _questionService.CreateQuestion(newQuestion);
+
+            _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Once);
         }
         #endregion
     }

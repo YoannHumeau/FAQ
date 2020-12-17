@@ -1,5 +1,6 @@
 ﻿using FAQ.Datas.Facades;
 using FAQ.Datas.Models;
+using System;
 using System.Collections.Generic;
 
 namespace FAQ.API.Services.Implementations
@@ -15,6 +16,29 @@ namespace FAQ.API.Services.Implementations
         public QuestionService(IFacade facade)
         {
             _facade = facade;
+        }
+
+        ///<inheritdoc/>
+        public void CreateQuestion(QuestionModel question)
+        {
+            foreach (var questionTranslate in question.QuestionTranslates)
+            {
+                if (!Helpers.LanguageHelper.IsLanguageOK(questionTranslate.Language))
+                {
+                    // TODO : Fix the bug that disallow to load the resource file
+                    throw new Exception("Bad language for question");
+                }
+            }
+
+            foreach (var answer in question.Answers)
+            {
+                if (!Helpers.LanguageHelper.IsLanguageOK(answer.Language))
+                {
+                    throw new Exception("Bad language for answer");
+                }
+            }
+
+            _facade.CreateQuestion(question);
         }
 
         ///<inheritdoc/>

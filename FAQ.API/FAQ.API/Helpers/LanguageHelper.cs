@@ -186,11 +186,21 @@ namespace FAQ.API.Helpers
         /// <returns>Valid language local code</returns>
         public static void CheckLanguage(ref string language)
         {
-            if (language?.Length != 5)
+            if (language?.Length != 5 || !availableLanguages.Contains(language))
                 language = defaultLanguage;
+        }
 
-            if (!availableLanguages.Contains(language))
-                language = defaultLanguage;
+        /// <summary>
+        /// Check if a local language is available 
+        /// </summary>
+        /// <param name="language">Language code</param>
+        /// <returns>Valid language local code</returns>
+        public static bool IsLanguageOK(string language)
+        {
+            if (language?.Length != 5 || !availableLanguages.Contains(language))
+                return false;
+
+            return true;
         }
     }
 }

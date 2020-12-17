@@ -15,6 +15,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
+    <PackageReference Include="Moq" Version="4.15.2" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Xunit.Extensions.Ordering" Version="1.4.5" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -22,11 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FAQ.API\FAQ.API.csproj" />
     <ProjectReference Include="..\FAQ.Datas\FAQ.Datas.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApiTests\" />
+    <Folder Include="ApiTests\ControllersTests\" />
   </ItemGroup>
 
 </Project>

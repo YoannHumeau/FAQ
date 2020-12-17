@@ -1,18 +1,9 @@
-﻿using FAQ.Datas.Facades.Implementations;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DATAS = FAQ.Datas.Facades;
-using FAQ.Datas;
-using System.IO;
-using FAQ.Datas.Models;
 using AutoMapper;
 using FAQ.API.Models.Dto;
 using System.ComponentModel.DataAnnotations;
-using FAQ.Datas.Facades;
+using FAQ.API.Services;
 
 namespace FAQ.API.Controllers
 {
@@ -22,23 +13,21 @@ namespace FAQ.API.Controllers
     {
         private readonly ILogger<QuestionController> _logger;
         private readonly IMapper _mapper;
-        private readonly IFacade _facade;
+        private readonly IQuestionService _questionService;
 
-        public QuestionController(ILogger<QuestionController> logger, IMapper mapper, IFacade facade)
+        public QuestionController(ILogger<QuestionController> logger, IMapper mapper, IQuestionService questionService)
         {
             _logger = logger;
             _mapper = mapper;
-            _facade = facade;
+            _questionService = questionService;
         }
 
         [HttpGet("{id}")]
-        public QuestionModelDto GetQuestion([FromRoute][Required] int id, string language)
+        public QuestionModelDto GetQuestion([FromQuery]string lang, [FromRoute][Required] int id)
         {
-            var testQuestion = _facade.GetQuestion(language, id);
+            var question = _questionService.GetQuestion(lang, id);
 
-            var hello = _mapper.Map<QuestionModelDto>(testQuestion);
-
-            return hello;
+            return _mapper.Map<QuestionModelDto>(question);
         }
     }
 }

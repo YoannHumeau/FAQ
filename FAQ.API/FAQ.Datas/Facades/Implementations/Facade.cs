@@ -133,16 +133,17 @@ namespace FAQ.Datas.Facades.Implementations
         /// <inheritdoc/>
         public AnswerModel UpdateAnswer(AnswerModel answer)
         {
-            var answerFound = _answerDAO.FindAnswer(answer);
+            var answerDb = _answerDAO.FindAnswer(answer);
 
-            if (answerFound == null)
+            if (answerDb == null)
             {
                 throw new Exception(Resources.En_resources.AnswerDoesNotExists);
             }
             else
             {
-                _answerDAO.UpdateAnswer(answer);
-                return _answerDAO.FindAnswer(answer);
+                answerDb.Text = answer.Text;
+                _answerDAO.UpdateAnswer(answerDb);
+                return _answerDAO.FindAnswer(answerDb);
             }
         }
 

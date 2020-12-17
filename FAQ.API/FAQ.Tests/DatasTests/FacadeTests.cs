@@ -339,6 +339,62 @@ namespace FAQ.Tests.DatasTests
             QuestionsDataExamples.NewAnswerFrench.QuestionModelId = 0;
             QuestionsDataExamples.NewAnswerFrench.Id = 0;
         }
+
+        [Fact]
+        public void UpdateAnswer_OK_English()
+        {
+            int questionid = 2;
+
+            var updateQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionid-1).QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.UpdateAnswerEnglish
+                }
+            };
+
+            updateQuestion.Answers.ElementAt(0).QuestionModelId = questionid;
+
+            var answerUpdating = _facade.UpdateAnswer(updateQuestion.Answers.ElementAt(0));
+
+            var questionWithAnswerUpdated = _facade.GetQuestion("en_US", questionid);
+
+            questionWithAnswerUpdated.Answers.ElementAt(0).Should().BeEquivalentTo(updateQuestion.Answers.ElementAt(0),
+                options => options.Excluding(a => a.Id)
+                );
+        }
+
+        [Fact]
+        public void UpdateAnswer_OK_French()
+        {
+            int questionid = 2;
+
+            var updateQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.QuestionsListFrench.ElementAt(questionid-1).QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.UpdateAnswerFrench
+                }
+            };
+
+            updateQuestion.Answers.ElementAt(0).QuestionModelId = questionid;
+
+            var answerUpdating = _facade.UpdateAnswer(updateQuestion.Answers.ElementAt(0));
+
+            var questionWithAnswerUpdated = _facade.GetQuestion("fr_FR", questionid);
+
+            questionWithAnswerUpdated.Answers.ElementAt(0).Should().BeEquivalentTo(updateQuestion.Answers.ElementAt(0),
+                options => options.Excluding(a => a.Id)
+                );
+        }
         #endregion
     }
 }

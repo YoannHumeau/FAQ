@@ -148,5 +148,17 @@ namespace FAQ.Tests.DataExamples
             Language = "fr_FR",
             Text = "La quatrième réponse"
         };
+
+        public static AnswerModel UpdateAnswerEnglish = new AnswerModel
+        {
+            Language = "en_US",
+            Text = "The updated second answer"
+        };
+
+        public static AnswerModel UpdateAnswerFrench = new AnswerModel
+        {
+            Language = "fr_FR",
+            Text = "La deuxième réponse modifiée"
+        };
     }
 }

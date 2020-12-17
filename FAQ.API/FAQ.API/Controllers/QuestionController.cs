@@ -4,6 +4,7 @@ using AutoMapper;
 using FAQ.API.Models.Dto;
 using System.ComponentModel.DataAnnotations;
 using FAQ.API.Services;
+using System.Collections.Generic;
 
 namespace FAQ.API.Controllers
 {
@@ -22,8 +23,16 @@ namespace FAQ.API.Controllers
             _questionService = questionService;
         }
 
+        [HttpGet]
+        public IEnumerable<QuestionModelDto> GetQuestions([FromQuery] string lang)
+        {
+            var questions = _questionService.GetQuestions(lang);
+
+            return _mapper.Map<IEnumerable<QuestionModelDto>>(questions);
+        }
+
         [HttpGet("{id}")]
-        public QuestionModelDto GetQuestion([FromQuery]string lang, [FromRoute][Required] int id)
+        public QuestionModelDto GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)
         {
             var question = _questionService.GetQuestion(lang, id);
 

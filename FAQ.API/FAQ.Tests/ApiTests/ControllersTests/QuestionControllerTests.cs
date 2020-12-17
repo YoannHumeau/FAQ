@@ -11,8 +11,6 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 {
     public class QuestionControllerTests
     {
-        public string _defaultLanguage = "en_US";
-
         public readonly QuestionController _questionController;
 
         public readonly Mock<IQuestionService> _mockFacade;
@@ -33,10 +31,12 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         [Fact]
         public void GetQuestions_OK_English()
         {
-            _mockFacade.Setup(x => x.GetQuestions(_defaultLanguage))
+            string language = "en_US";
+
+            _mockFacade.Setup(x => x.GetQuestions(language))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish);
 
-            var result = _questionController.GetQuestions(_defaultLanguage);
+            var result = _questionController.GetQuestions(language);
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
         }
@@ -44,12 +44,27 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         [Fact]
         public void GetQuestions_OK_French()
         {
-            _mockFacade.Setup(x => x.GetQuestions(_defaultLanguage))
+            string language = "fr_FR";
+
+            _mockFacade.Setup(x => x.GetQuestions(language))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench);
 
-            var result = _questionController.GetQuestions(_defaultLanguage);
+            var result = _questionController.GetQuestions(language);
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench);
+        }
+
+        [Fact]
+        public void GetQuestions_NO_BadLanguageCodeReturnEnglish()
+        {
+            string language = "gr_GR";
+
+            _mockFacade.Setup(x => x.GetQuestions(language))
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish);
+
+            var result = _questionController.GetQuestions(language);
+
+            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
         }
     }
 }

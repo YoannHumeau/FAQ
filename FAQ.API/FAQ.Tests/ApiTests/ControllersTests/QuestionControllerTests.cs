@@ -84,6 +84,20 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId-1));
         }
+
+        [Fact]
+        public void GetQuestion_OK_French()
+        {
+            int questionId = 2;
+            string language = "fr_FR";
+
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId))
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId - 1));
+
+            var result = _questionController.GetQuestion(language, questionId);
+
+            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench.ElementAt(questionId - 1));
+        }
         #endregion
     }
 }

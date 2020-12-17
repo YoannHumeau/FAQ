@@ -5,6 +5,7 @@ using FAQ.API.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Linq;
 using Xunit;
 
 namespace FAQ.Tests.ApiTests.ControllersTests
@@ -28,6 +29,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             _questionController = new QuestionController(_mockLogger.Object, _mapper, _mockFacade.Object);
         }
 
+        #region Get all questions
         [Fact]
         public void GetQuestions_OK_English()
         {
@@ -66,5 +68,22 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
         }
+        #endregion
+
+        #region Get question
+        [Fact]
+        public void GetQuestion_OK_English()
+        {
+            int questionId = 2;
+            string language = "en_US";
+
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId))
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
+
+            var result = _questionController.GetQuestion(language, questionId);
+
+            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId-1));
+        }
+        #endregion
     }
 }

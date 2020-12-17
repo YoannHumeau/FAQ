@@ -10,10 +10,11 @@ namespace FAQ.Tests.ApiTests.ServicesTests
     public class QuestionServiceTests
     {
         public string _defaultLanguage = "en_US";
+        public readonly Mock<IFacade> _mockFacade;
 
         public QuestionServiceTests()
         {
-
+            _mockFacade = new Mock<IFacade>();
         }
 
         [Fact]
@@ -22,10 +23,9 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             int questionId = 2;
             string language = "en_US";
 
-            var mockFacade = new Mock<IFacade>();
-            mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
 
-            var questionService = new QuestionService(mockFacade.Object);
+            var questionService = new QuestionService(_mockFacade.Object);
 
             var result = questionService.GetQuestion(language, questionId);
 
@@ -38,10 +38,9 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             int questionId = 1;
             string language = "fr_FR";
 
-            var mockFacade = new Mock<IFacade>();
-            mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1));
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1));
 
-            var questionService = new QuestionService(mockFacade.Object);
+            var questionService = new QuestionService(_mockFacade.Object);
 
             var result = questionService.GetQuestion(language, questionId);
 
@@ -49,15 +48,14 @@ namespace FAQ.Tests.ApiTests.ServicesTests
         }
 
         [Fact]
-        public void GetQuestion_KO_BadLanguageCodeReturnEnglish()
+        public void GetQuestion_NO_BadLanguageCodeReturnEnglish()
         {
             int questionId = 2;
             string language = "gr_GR";
 
-            var mockFacade = new Mock<IFacade>();
-            mockFacade.Setup(x => x.GetQuestion(_defaultLanguage, questionId)).Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
+            _mockFacade.Setup(x => x.GetQuestion(_defaultLanguage, questionId)).Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
 
-            var questionService = new QuestionService(mockFacade.Object);
+            var questionService = new QuestionService(_mockFacade.Object);
 
             var result = questionService.GetQuestion(language, questionId);
 

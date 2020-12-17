@@ -98,6 +98,20 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench.ElementAt(questionId - 1));
         }
+
+        [Fact]
+        public void GetQuestion_NO_BadLanguageCodeReturnEnglish()
+        {
+            int questionId = 2;
+            string language = "gr_GR";
+
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId))
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId - 1));
+
+            var result = _questionController.GetQuestion(language, questionId);
+
+            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId - 1));
+        }
         #endregion
     }
 }

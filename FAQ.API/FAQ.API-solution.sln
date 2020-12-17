@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GithubAction", "GithubActio
 		..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAQ.API", "FAQ.API\FAQ.API.csproj", "{5430D6C1-1C61-4A8B-B281-FB9EB7ED0FC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{17CE1C66-7E2E-4FC4-8A12-0636B47EE5D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17CE1C66-7E2E-4FC4-8A12-0636B47EE5D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17CE1C66-7E2E-4FC4-8A12-0636B47EE5D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5430D6C1-1C61-4A8B-B281-FB9EB7ED0FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5430D6C1-1C61-4A8B-B281-FB9EB7ED0FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5430D6C1-1C61-4A8B-B281-FB9EB7ED0FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5430D6C1-1C61-4A8B-B281-FB9EB7ED0FC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

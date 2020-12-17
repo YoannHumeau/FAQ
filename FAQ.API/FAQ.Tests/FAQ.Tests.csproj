@@ -25,4 +25,8 @@
     <ProjectReference Include="..\FAQ.Datas\FAQ.Datas.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApiTests\" />
+  </ItemGroup>
+
 </Project>

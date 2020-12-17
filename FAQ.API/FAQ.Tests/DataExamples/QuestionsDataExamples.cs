@@ -1,4 +1,5 @@
-﻿using FAQ.Datas.Models;
+﻿using FAQ.API.Models.Dto;
+using FAQ.Datas.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,6 +36,15 @@ namespace FAQ.Tests.DataExamples
             new AnswerModel { Id = 2, Language = "fr_FR", Text = "La première reponse", QuestionModelId = 1 },
             new AnswerModel { Id = 4, Language = "fr_FR", Text = "La deuxième réponse", QuestionModelId = 2 },
             new AnswerModel { Id = 6, Language = "fr_FR", Text = "La troisième réponse", QuestionModelId = 3 }
+        };
+        #endregion
+
+        #region AnswerDto
+        public static List<AnswerModelDto> AnswersDtoListEnglish = new List<AnswerModelDto>
+        {
+            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(0).Language, Text = AnswersListEnglish.ElementAt(0).Text },
+            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(1).Language, Text = AnswersListEnglish.ElementAt(1).Text },
+            new AnswerModelDto { Language = AnswersListEnglish.ElementAt(2).Language, Text = AnswersListEnglish.ElementAt(2).Text }
         };
         #endregion
 
@@ -100,6 +110,31 @@ namespace FAQ.Tests.DataExamples
                 Answers = new List<AnswerModel> { AnswersListEnglish.ElementAt(2) }
             }
         };
+        #endregion
+
+        #region QuestionDto
+        public static List<QuestionModelDto> QuestionsDtoListEnglish = new List<QuestionModelDto>
+        {
+            new QuestionModelDto
+            {
+                Id = 1,
+                TextContent = ListQuestionsTranslatesEnglish.ElementAt(0).First().QuestionText,
+                Answers = new List<AnswerModelDto> { AnswersDtoListEnglish.ElementAt(0) }
+            },
+            new QuestionModelDto
+            {
+                Id = 2,
+                TextContent = ListQuestionsTranslatesEnglish.ElementAt(1).First().QuestionText,
+                Answers = new List<AnswerModelDto> { AnswersDtoListEnglish.ElementAt(1) }
+            },
+            new QuestionModelDto
+            {
+                Id = 3,
+                TextContent = ListQuestionsTranslatesEnglish.ElementAt(2).First().QuestionText,
+                Answers = new List<AnswerModelDto> { AnswersDtoListEnglish.ElementAt(2) }
+            }
+        };
+
         #endregion
 
         //public static List<QuestionModel> QuestionsListEnglish = new List<QuestionModel>

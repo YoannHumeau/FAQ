@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FAQ.API.Services;
 using FAQ.API.Services.Implementations;
 using FAQ.Datas.Facades;
 using FAQ.Datas.Models;
@@ -14,7 +15,7 @@ namespace FAQ.Tests.ApiTests.ServicesTests
     {
         public string _defaultLanguage = "en_US";
         public readonly Mock<IFacade> _mockFacade;
-        public readonly QuestionService _questionService;
+        public readonly IQuestionService _questionService;
 
         public QuestionServiceTests()
         {

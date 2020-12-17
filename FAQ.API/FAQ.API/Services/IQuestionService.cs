@@ -6,6 +6,12 @@ namespace FAQ.API.Services
     public interface IQuestionService
     {
         /// <summary>
+        /// Create a question
+        /// </summary>
+        /// <param name="question">Question to insert in database</param>
+        public void CreateQuestion(QuestionModel question);
+
+        /// <summary>
         /// Get all questions in a language
         /// </summary>
         /// <param name="language">Local language code ("en_US")</param>

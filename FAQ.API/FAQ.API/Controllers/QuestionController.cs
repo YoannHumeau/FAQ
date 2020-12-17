@@ -5,6 +5,7 @@ using FAQ.API.Models.Dto;
 using System.ComponentModel.DataAnnotations;
 using FAQ.API.Services;
 using System.Collections.Generic;
+using FAQ.Datas.Models;
 
 namespace FAQ.API.Controllers
 {
@@ -23,6 +24,43 @@ namespace FAQ.API.Controllers
             _questionService = questionService;
         }
 
+        /// <summary>
+        /// Create a question
+        /// </summary>
+        /// <param name="questionDto"><see cref="QuestionModelCreationDto"/> Question to create</param>
+        [HttpPost]
+        public void CreateQuestion([FromBody] QuestionModelCreationDto questionDto)
+        {
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    new QuestionTranslateModel
+                    {
+                        Language = questionDto.Language,
+                        QuestionText = questionDto.TextContent,
+                    }
+                },
+                Answers = new List<AnswerModel>()
+            };
+
+            foreach (var answer in questionDto.Answers)
+            {
+                newQuestion.Answers.Add(new AnswerModel
+                {
+                    Language = answer.Language,
+                    Text = answer.Text
+                });
+            }
+
+            _questionService.CreateQuestion(newQuestion);
+        }
+
+        /// <summary>
+        /// Get questions in a specific language
+        /// </summary>
+        /// <param name="lang">local language code (en_US)</param>
+        /// <returns>List of questions</returns>
         [HttpGet]
         public IEnumerable<QuestionModelDto> GetQuestions([FromQuery] string lang)
         {
@@ -31,6 +69,12 @@ namespace FAQ.API.Controllers
             return _mapper.Map<IEnumerable<QuestionModelDto>>(questions);
         }
 
+        /// <summary>
+        /// Get a question in a specific language
+        /// </summary>
+        /// <param name="lang">local language code (en_US)</param>
+        /// <param name="id">question's id</param>
+        /// <returns>A question</returns>
         [HttpGet("{id}")]
         public QuestionModelDto GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)
         {

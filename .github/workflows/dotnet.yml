@@ -19,3 +19,5 @@ jobs:
       run: dotnet build FAQ.API/ --no-restore
     - name: Test
       run: dotnet test FAQ.API/ --no-build --verbosity normal
+    - name: CountCodeLines
+      run: find . -name '*.cs' | xargs wc -l

@@ -68,13 +68,13 @@ namespace FAQ.API.Controllers
         }
 
         /// <summary>
-        /// Get questions in a specific language
+        /// Get all questions in a specific language
         /// </summary>
         /// <param name="lang">local language code (en_US)</param>
         /// <returns><see cref="IEnumerable{QuestionModelDto}"/></returns>
         [HttpGet]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(QuestionModelDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<QuestionModelDto>), StatusCodes.Status200OK)]
         public IActionResult GetQuestions([FromQuery] string lang)
         {
             var questions = _questionService.GetQuestions(lang);

@@ -11,7 +11,7 @@ namespace FAQ.API.Controllers
 {
     [ApiController]
     [Route("question")]
-    public class QuestionController
+    public class QuestionController : Controller
     {
         private readonly ILogger<QuestionController> _logger;
         private readonly IMapper _mapper;
@@ -62,11 +62,11 @@ namespace FAQ.API.Controllers
         /// <param name="lang">local language code (en_US)</param>
         /// <returns>List of questions</returns>
         [HttpGet]
-        public IEnumerable<QuestionModelDto> GetQuestions([FromQuery] string lang)
+        public IActionResult GetQuestions([FromQuery] string lang)
         {
             var questions = _questionService.GetQuestions(lang);
 
-            return _mapper.Map<IEnumerable<QuestionModelDto>>(questions);
+            return Ok(_mapper.Map<IEnumerable<QuestionModelDto>>(questions));
         }
 
         /// <summary>
@@ -74,13 +74,16 @@ namespace FAQ.API.Controllers
         /// </summary>
         /// <param name="lang">local language code (en_US)</param>
         /// <param name="id">question's id</param>
-        /// <returns>A question</returns>
+        /// <returns>A question<see cref="QuestionModelDto"/></returns>
         [HttpGet("{id}")]
-        public QuestionModelDto GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)
+        public IActionResult GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)
         {
             var question = _questionService.GetQuestion(lang, id);
 
-            return _mapper.Map<QuestionModelDto>(question);
+            if (question == null)
+                return NotFound("Question not found");
+
+            return Ok(_mapper.Map<QuestionModelDto>(question));
         }
     }
 }

@@ -3,6 +3,7 @@ using FAQ.API.Controllers;
 using FAQ.API.Models.Dto;
 using FAQ.API.Services;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Linq;
@@ -39,8 +40,12 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish);
 
             var result = _questionController.GetQuestions(language);
+            var okObjectResult = result as OkObjectResult;
 
-            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
         }
 
         [Fact]
@@ -52,8 +57,12 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench);
 
             var result = _questionController.GetQuestions(language);
+            var okObjectResult = result as OkObjectResult;
 
-            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench);
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench);
         }
 
         [Fact]
@@ -65,8 +74,12 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish);
 
             var result = _questionController.GetQuestions(language);
+            var okObjectResult = result as OkObjectResult;
 
-            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish);
         }
         #endregion
 
@@ -81,8 +94,12 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
 
             var result = _questionController.GetQuestion(language, questionId);
+            var okObjectResult = result as OkObjectResult;
 
-            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId-1));
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId-1));
         }
 
         [Fact]
@@ -92,11 +109,15 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             string language = "fr_FR";
 
             _mockFacade.Setup(x => x.GetQuestion(language, questionId))
-                .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId - 1));
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1));
 
             var result = _questionController.GetQuestion(language, questionId);
+            var okObjectResult = result as OkObjectResult;
+            
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
 
-            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench.ElementAt(questionId - 1));
+            okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListFrench.ElementAt(questionId-1));
         }
 
         [Fact]
@@ -106,12 +127,19 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             string language = "gr_GR";
 
             _mockFacade.Setup(x => x.GetQuestion(language, questionId))
-                .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId - 1));
+                .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
 
             var result = _questionController.GetQuestion(language, questionId);
+            var okObjectResult = result as OkObjectResult;
 
-            result.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId - 1));
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId-1));
         }
+
+        // TODO : Write test for bad question id
+        // TODO : Write test for bad language asked
         #endregion
     }
 }

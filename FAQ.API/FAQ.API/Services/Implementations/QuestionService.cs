@@ -26,7 +26,7 @@ namespace FAQ.API.Services.Implementations
                 if (!Helpers.LanguageHelper.IsLanguageOK(questionTranslate.Language))
                 {
                     // TODO : Fix the bug that disallow to load the resource file
-                    throw new Exception("Bad language for question");
+                    throw new Exception(Resources.En_resource.TranslateBadLanguageQuestion);
                 }
             }
 
@@ -34,7 +34,7 @@ namespace FAQ.API.Services.Implementations
             {
                 if (!Helpers.LanguageHelper.IsLanguageOK(answer.Language))
                 {
-                    throw new Exception("Bad language for answer");
+                    throw new Exception(Resources.En_resource.TranslateBadLanguageAnswer);
                 }
             }
 

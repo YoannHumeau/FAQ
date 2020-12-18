@@ -7,6 +7,7 @@ using FAQ.API.Services;
 using System.Collections.Generic;
 using FAQ.Datas.Models;
 using Microsoft.AspNetCore.Http;
+using System.Net.Mime;
 
 namespace FAQ.API.Controllers
 {
@@ -14,7 +15,9 @@ namespace FAQ.API.Controllers
     /// Question controller class
     /// </summary>
     [ApiController]
-    [Route("question")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Route("[controller]")]
     public class QuestionController : Controller
     {
         private readonly ILogger<QuestionController> _logger;
@@ -73,7 +76,6 @@ namespace FAQ.API.Controllers
         /// <param name="lang">local language code (en_US)</param>
         /// <returns><see cref="IEnumerable{QuestionModelDto}"/></returns>
         [HttpGet]
-        [Produces("application/json")]
         [ProducesResponseType(typeof(IEnumerable<QuestionModelDto>), StatusCodes.Status200OK)]
         public IActionResult GetQuestions([FromQuery] string lang)
         {
@@ -89,7 +91,6 @@ namespace FAQ.API.Controllers
         /// <param name="id">question's id</param>
         /// <returns><see cref="QuestionModelDto"/></returns>
         [HttpGet("{id}")]
-        [Produces("application/json")]
         [ProducesResponseType(typeof(QuestionModelDto),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)

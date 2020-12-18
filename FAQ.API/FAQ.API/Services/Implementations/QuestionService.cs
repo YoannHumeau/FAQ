@@ -25,7 +25,6 @@ namespace FAQ.API.Services.Implementations
             {
                 if (!Helpers.LanguageHelper.IsLanguageOK(questionTranslate.Language))
                 {
-                    // TODO : Fix the bug that disallow to load the resource file
                     throw new Exception(Resources.En_resource.TranslateBadLanguageQuestion);
                 }
             }

@@ -6,9 +6,13 @@ using System.ComponentModel.DataAnnotations;
 using FAQ.API.Services;
 using System.Collections.Generic;
 using FAQ.Datas.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace FAQ.API.Controllers
 {
+    /// <summary>
+    /// Question controller class
+    /// </summary>
     [ApiController]
     [Route("question")]
     public class QuestionController : Controller
@@ -17,6 +21,12 @@ namespace FAQ.API.Controllers
         private readonly IMapper _mapper;
         private readonly IQuestionService _questionService;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="logger">Logger</param>
+        /// <param name="mapper">Mapper</param>
+        /// <param name="questionService">Question service</param>
         public QuestionController(ILogger<QuestionController> logger, IMapper mapper, IQuestionService questionService)
         {
             _logger = logger;
@@ -29,6 +39,7 @@ namespace FAQ.API.Controllers
         /// </summary>
         /// <param name="questionDto"><see cref="QuestionModelCreationDto"/> Question to create</param>
         [HttpPost]
+        [Consumes("application/json")]
         public void CreateQuestion([FromBody] QuestionModelCreationDto questionDto)
         {
             var newQuestion = new QuestionModel
@@ -60,8 +71,10 @@ namespace FAQ.API.Controllers
         /// Get questions in a specific language
         /// </summary>
         /// <param name="lang">local language code (en_US)</param>
-        /// <returns>List of questions</returns>
+        /// <returns><see cref="IEnumerable{QuestionModelDto}"/></returns>
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetQuestions([FromQuery] string lang)
         {
             var questions = _questionService.GetQuestions(lang);
@@ -74,8 +87,11 @@ namespace FAQ.API.Controllers
         /// </summary>
         /// <param name="lang">local language code (en_US)</param>
         /// <param name="id">question's id</param>
-        /// <returns>A question<see cref="QuestionModelDto"/></returns>
+        /// <returns><see cref="QuestionModelDto"/></returns>
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)
         {
             var question = _questionService.GetQuestion(lang, id);

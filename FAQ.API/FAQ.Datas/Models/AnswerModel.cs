@@ -24,11 +24,13 @@ namespace FAQ.Datas.Models
         /// <summary>
         /// Text of the answer
         /// </summary>
+        /// <example>Text of the answer</example>
         public string Text { get; set; }
 
         /// <summary>
         /// Id of the question model
         /// </summary>
+        /// <example>123</example>
         public int QuestionModelId { get; set; }
     }
 }

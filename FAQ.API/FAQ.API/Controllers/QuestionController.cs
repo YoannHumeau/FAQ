@@ -74,7 +74,7 @@ namespace FAQ.API.Controllers
         /// <returns><see cref="IEnumerable{QuestionModelDto}"/></returns>
         [HttpGet]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(QuestionModelDto), StatusCodes.Status200OK)]
         public IActionResult GetQuestions([FromQuery] string lang)
         {
             var questions = _questionService.GetQuestions(lang);
@@ -90,7 +90,7 @@ namespace FAQ.API.Controllers
         /// <returns><see cref="QuestionModelDto"/></returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(QuestionModelDto),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetQuestion([FromQuery] string lang, [FromRoute][Required] int id)
         {

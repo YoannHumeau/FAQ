@@ -262,6 +262,33 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         }
 
         // TODO : CreateQuestion_NO_WithError500Returned()
+        [Fact]
+        public void CreateQuestion_NO_WithError500Returned()
+        {
+            string language = "en_US";
+
+            var newQuestionCreationDto = new QuestionModelCreationDto
+            {
+                Language = language,
+                TextContent = DataExamples.QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0).QuestionText,
+                Answers = new List<AnswerModelDto>
+                {
+                    new AnswerModelDto
+                    {
+                        Language = language,
+                        Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+                    }
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new Exception());
+
+            var result = _questionController.CreateQuestion(newQuestionCreationDto);
+            var statusCodeResult = result as StatusCodeResult;
+
+            statusCodeResult.StatusCode.Should().Be(500);
+        }
+
         // TODO : CreateQuestion_NO_BadLanguageCode()
         #endregion
     }

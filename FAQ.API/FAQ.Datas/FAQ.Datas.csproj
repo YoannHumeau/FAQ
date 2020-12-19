@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\En_resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>En_resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

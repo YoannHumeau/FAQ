@@ -8,6 +8,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -216,13 +217,14 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>()));
 
-            _questionController.CreateQuestion(newQuestionCreationDto);
+            var result =_questionController.CreateQuestion(newQuestionCreationDto);
+            // TODO : CHeck the okObjectResult
 
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
         [Fact]
-        public void CreateQuestion_OK_French()
+        public void CreateQuestion_NO_French()
         {
             string language = "fr_FR";
 
@@ -240,11 +242,18 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>()));
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new Exception(Datas.Resources.En_resources.Need_enUS_Language));
 
-            _questionController.CreateQuestion(newQuestionCreationDto);
+            Assert.Throws<Exception>(() => _questionController.CreateQuestion(newQuestionCreationDto))
+                .Message.Should().BeEquivalentTo(Datas.Resources.En_resources.Need_enUS_Language);
+            // TODO : Check the okObjectResult
 
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+        }
+
+        public void CreateQuestion_NO_BadLanguageCode()
+        {
+
         }
         #endregion
     }

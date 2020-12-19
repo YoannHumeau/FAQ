@@ -220,6 +220,32 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
+
+        [Fact]
+        public void CreateQuestion_OK_French()
+        {
+            string language = "fr_FR";
+
+            var newQuestionCreationDto = new QuestionModelCreationDto
+            {
+                Language = language,
+                TextContent = DataExamples.QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0).QuestionText,
+                Answers = new List<AnswerModelDto>
+                {
+                    new AnswerModelDto
+                    {
+                        Language = language,
+                        Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+                    }
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>()));
+
+            _questionController.CreateQuestion(newQuestionCreationDto);
+
+            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+        }
         #endregion
     }
 }

@@ -3,10 +3,12 @@ using FAQ.API.Controllers;
 using FAQ.API.Models.Dto;
 using FAQ.API.Resources;
 using FAQ.API.Services;
+using FAQ.Datas.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -190,6 +192,34 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             okObjectResult.Value.Should().Be(En_resource.QuestionNotFound);
         }
 
+        #endregion
+
+        #region Create question
+        [Fact]
+        public void CreateQuestion_OK_English()
+        {
+            string language = "en_US";
+
+            var newQuestionCreationDto = new QuestionModelCreationDto
+            {
+                Language = language,
+                TextContent = DataExamples.QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0).QuestionText,
+                Answers = new List<AnswerModelDto>
+                {
+                    new AnswerModelDto
+                    {
+                        Language = language,
+                        Text = DataExamples.QuestionsDataExamples.NewAnswerEnglish.Text
+                    }
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>()));
+
+            _questionController.CreateQuestion(newQuestionCreationDto);
+
+            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+        }
         #endregion
     }
 }

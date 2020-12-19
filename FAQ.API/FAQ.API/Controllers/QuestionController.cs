@@ -44,7 +44,7 @@ namespace FAQ.API.Controllers
         /// <param name="questionDto"><see cref="QuestionModelCreationDto"/> Question to create</param>
         [HttpPost]
         [Consumes("application/json")]
-        public void CreateQuestion([FromBody] QuestionModelCreationDto questionDto)
+        public IActionResult CreateQuestion([FromBody] QuestionModelCreationDto questionDto)
         {
             var newQuestion = new QuestionModel
             {
@@ -68,7 +68,11 @@ namespace FAQ.API.Controllers
                 });
             }
 
+            // TODO : check the error and send properly error status code
             _questionService.CreateQuestion(newQuestion);
+
+            // TODO : May be return the id of the question created
+            return Ok();
         }
 
         /// <summary>

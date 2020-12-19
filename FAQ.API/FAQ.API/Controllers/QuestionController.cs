@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using FAQ.Datas.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net.Mime;
+using FAQ.API.Resources;
 
 namespace FAQ.API.Controllers
 {
@@ -98,7 +99,7 @@ namespace FAQ.API.Controllers
             var question = _questionService.GetQuestion(lang, id);
 
             if (question == null)
-                return NotFound("Question not found");
+                return NotFound(En_resource.QuestionNotFound);
 
             return Ok(_mapper.Map<QuestionModelDto>(question));
         }

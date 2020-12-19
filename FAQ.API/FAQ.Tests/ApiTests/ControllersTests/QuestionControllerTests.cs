@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FAQ.API.Controllers;
 using FAQ.API.Models.Dto;
+using FAQ.API.Resources;
 using FAQ.API.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -138,7 +139,40 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             okObjectResult.Value.Should().BeEquivalentTo(DataExamples.QuestionsDataExamples.QuestionsDtoListEnglish.ElementAt(questionId-1));
         }
 
-        // TODO : Write test for bad question id
+        [Fact]
+        public void GetQuestion_NO_BadQuestionId_English()
+        {
+            int questionId = 999;
+            string language = "en_US";
+
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
+
+            var result = _questionController.GetQuestion(language, questionId);
+            var okObjectResult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(404);
+
+            okObjectResult.Value.Should().Be(En_resource.QuestionNotFound);
+        }
+
+        [Fact]
+        public void GetQuestion_NO_BadQuestionId_French()
+        {
+            int questionId = 999;
+            string language = "en_US";
+
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
+
+            var result = _questionController.GetQuestion(language, questionId);
+            var okObjectResult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(404);
+
+            okObjectResult.Value.Should().Be(En_resource.QuestionNotFound);
+        }
+
         // TODO : Write test for bad language asked
         #endregion
     }

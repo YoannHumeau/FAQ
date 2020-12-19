@@ -22,7 +22,7 @@ namespace FAQ.API.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class En_resource {
+    public class En_resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FAQ.API.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FAQ.API.Resources.En_resource", typeof(En_resource).Assembly);
@@ -51,7 +51,7 @@ namespace FAQ.API.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace FAQ.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;Question not found&quot;.
+        /// </summary>
+        public static string QuestionNotFound {
+            get {
+                return ResourceManager.GetString("QuestionNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad language for answer.
         /// </summary>
-        internal static string TranslateBadLanguageAnswer {
+        public static string TranslateBadLanguageAnswer {
             get {
                 return ResourceManager.GetString("TranslateBadLanguageAnswer", resourceCulture);
             }
@@ -72,7 +81,7 @@ namespace FAQ.API.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Bad language for question.
         /// </summary>
-        internal static string TranslateBadLanguageQuestion {
+        public static string TranslateBadLanguageQuestion {
             get {
                 return ResourceManager.GetString("TranslateBadLanguageQuestion", resourceCulture);
             }

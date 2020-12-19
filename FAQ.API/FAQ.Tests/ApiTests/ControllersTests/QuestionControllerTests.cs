@@ -173,7 +173,23 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             okObjectResult.Value.Should().Be(En_resource.QuestionNotFound);
         }
 
-        // TODO : Write test for bad language asked
+        [Fact]
+        public void GetQuestion_NO_BadQuestionId_BadLanguageCode()
+        {
+            int questionId = 999;
+            string language = "gr_GR";
+
+            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
+
+            var result = _questionController.GetQuestion(language, questionId);
+            var okObjectResult = result as NotFoundObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(404);
+
+            okObjectResult.Value.Should().Be(En_resource.QuestionNotFound);
+        }
+
         #endregion
     }
 }

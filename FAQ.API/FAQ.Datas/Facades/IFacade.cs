@@ -25,7 +25,7 @@ namespace FAQ.Datas.Facades
         /// Create a question
         /// </summary>
         /// <param name="question"><see cref="QuestionModel"/></param>
-        public void CreateQuestion(QuestionModel question);
+        public int CreateQuestion(QuestionModel question);
 
         /// <summary>
         /// Remove a question

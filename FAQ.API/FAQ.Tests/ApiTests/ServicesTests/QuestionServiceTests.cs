@@ -106,6 +106,8 @@ namespace FAQ.Tests.ApiTests.ServicesTests
         [Fact]
         public void CreateQuestion_OK_English()
         {
+            int questionCreatedId = 4;
+
             var newQuestion = new QuestionModel
             {
                 QuestionTranslates = new List<QuestionTranslateModel>
@@ -118,9 +120,11 @@ namespace FAQ.Tests.ApiTests.ServicesTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
+            _mockFacade.Setup(x => x.CreateQuestion(newQuestion)).Returns(questionCreatedId);
 
-            _questionService.CreateQuestion(newQuestion);
+            var result = _questionService.CreateQuestion(newQuestion);
+
+            result.Should().Be(questionCreatedId);
 
             _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Once);
         }

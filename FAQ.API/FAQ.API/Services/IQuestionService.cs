@@ -9,7 +9,7 @@ namespace FAQ.API.Services
         /// Create a question
         /// </summary>
         /// <param name="question">Question to insert in database</param>
-        public void CreateQuestion(QuestionModel question);
+        public int CreateQuestion(QuestionModel question);
 
         /// <summary>
         /// Get all questions in a language

@@ -199,6 +199,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         [Fact]
         public void CreateQuestion_OK_English()
         {
+            int questionCreatedId = 4;
             string language = "en_US";
 
             var newQuestionCreationDto = new QuestionModelCreationDto
@@ -215,10 +216,15 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>()));
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Returns(questionCreatedId);
 
             var result =_questionController.CreateQuestion(newQuestionCreationDto);
-            // TODO : CHeck the okObjectResult
+            var okObjectResult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().Be(questionCreatedId);
 
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
@@ -251,10 +257,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
-        public void CreateQuestion_NO_BadLanguageCode()
-        {
-
-        }
+        // TODO : CreateQuestion_NO_BadLanguageCode()
         #endregion
     }
 }

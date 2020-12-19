@@ -168,7 +168,10 @@ namespace FAQ.Tests.DatasTests
             questionsListFrenchAddedOne.Add(QuestionsDataExamples.NewQuestionFrench);
 
             // Create the new question in DB
-            _facade.CreateQuestion(newQuestion);
+            var questionid = _facade.CreateQuestion(newQuestion);
+            
+            // Check the id return
+            questionid.Should().Be(4);
 
             // Check that is good in english
             var resultEnglish = _facade.GetQuestions("en_US");
@@ -209,7 +212,9 @@ namespace FAQ.Tests.DatasTests
             questionsListFrenchAddedOneWithError.Add(QuestionsDataExamples.NewQuestionEnglish);
 
             // Create the new question in DB
-            _facade.CreateQuestion(newQuestion);
+            var questionId = _facade.CreateQuestion(newQuestion);
+
+            questionId.Should().Be(4);
 
             // Check that is good in english
             var resultEnglish = _facade.GetQuestions("en_US");
@@ -241,7 +246,8 @@ namespace FAQ.Tests.DatasTests
                 }
             };
 
-            Assert.Throws<Exception>(() => _facade.CreateQuestion(newQuestion));
+            Assert.Throws<Exception>(() => _facade.CreateQuestion(newQuestion))
+                .Message.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
         }
         #endregion
 

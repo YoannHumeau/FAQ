@@ -19,7 +19,7 @@ namespace FAQ.API.Services.Implementations
         }
 
         ///<inheritdoc/>
-        public void CreateQuestion(QuestionModel question)
+        public int CreateQuestion(QuestionModel question)
         {
             foreach (var questionTranslate in question.QuestionTranslates)
             {
@@ -37,7 +37,7 @@ namespace FAQ.API.Services.Implementations
                 }
             }
 
-            _facade.CreateQuestion(question);
+            return _facade.CreateQuestion(question);
         }
 
         ///<inheritdoc/>

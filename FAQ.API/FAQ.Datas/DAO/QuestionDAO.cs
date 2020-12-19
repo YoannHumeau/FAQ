@@ -53,13 +53,15 @@ namespace FAQ.Datas.DAO
         /// Create a question
         /// </summary>
         /// <param name="question"><see cref="QuestionModel"/> Question to create</param>
-        internal void CreateQuestion(QuestionModel question)
+        /// <return>Id of the new question created</return>
+        internal int CreateQuestion(QuestionModel question)
         {
             _faqContext.Questions.Add(question);
 
             try
             {
                 _faqContext.SaveChanges();
+                return question.Id;
             }
             catch (Exception e)
             {

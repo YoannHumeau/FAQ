@@ -69,10 +69,10 @@ namespace FAQ.API.Controllers
             }
 
             // TODO : check the error and send properly error status code
-            _questionService.CreateQuestion(newQuestion);
+            var result = _questionService.CreateQuestion(newQuestion);
 
             // TODO : May be return the id of the question created
-            return Ok();
+            return Ok(result);
         }
 
         /// <summary>

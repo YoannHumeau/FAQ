@@ -171,7 +171,8 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
 
-            Assert.Throws<Exception>(() => _questionService.CreateQuestion(newQuestion));
+            Assert.Throws<ArgumentException>(() => _questionService.CreateQuestion(newQuestion))
+                .Message.Should().Be(API.Resources.En_resource.TranslateBadLanguageQuestion);
 
             _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Never);
 
@@ -199,7 +200,9 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
 
-            Assert.Throws<Exception>(() => _questionService.CreateQuestion(newQuestion));
+            Assert.Throws<ArgumentException>(() => _questionService.CreateQuestion(newQuestion));
+                // TODO : Fix the test bug (tip => new test with good language question and bad language answer) 
+                //.Message.Should().Be(API.Resources.En_resource.TranslateBadLanguageAnswer);
 
             _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Never);
 

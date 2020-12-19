@@ -246,7 +246,7 @@ namespace FAQ.Tests.DatasTests
                 }
             };
 
-            Assert.Throws<Exception>(() => _facade.CreateQuestion(newQuestion))
+            Assert.Throws<ArgumentException>(() => _facade.CreateQuestion(newQuestion))
                 .Message.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
         }
         #endregion

@@ -73,7 +73,7 @@ namespace FAQ.Datas.Facades.Implementations
             // Return an error code
             if (question.QuestionTranslates.Where(qt => qt.Language == "en_US").Any() == false)
             {
-                throw new Exception(Resources.En_resources.Need_enUS_Language);
+                throw new ArgumentException(Resources.En_resources.Need_enUS_Language);
             }
 
             return _questionDAO.CreateQuestion(question);

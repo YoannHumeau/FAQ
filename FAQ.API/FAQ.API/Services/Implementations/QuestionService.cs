@@ -25,7 +25,7 @@ namespace FAQ.API.Services.Implementations
             {
                 if (!Helpers.LanguageHelper.IsLanguageOK(questionTranslate.Language))
                 {
-                    throw new Exception(Resources.En_resource.TranslateBadLanguageQuestion);
+                    throw new ArgumentException(Resources.En_resource.TranslateBadLanguageQuestion);
                 }
             }
 
@@ -33,7 +33,7 @@ namespace FAQ.API.Services.Implementations
             {
                 if (!Helpers.LanguageHelper.IsLanguageOK(answer.Language))
                 {
-                    throw new Exception(Resources.En_resource.TranslateBadLanguageAnswer);
+                    throw new ArgumentException(Resources.En_resource.TranslateBadLanguageAnswer);
                 }
             }
 

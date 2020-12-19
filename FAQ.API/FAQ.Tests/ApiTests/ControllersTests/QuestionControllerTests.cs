@@ -248,15 +248,20 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new Exception(Datas.Resources.En_resources.Need_enUS_Language));
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
 
-            Assert.Throws<Exception>(() => _questionController.CreateQuestion(newQuestionCreationDto))
-                .Message.Should().BeEquivalentTo(Datas.Resources.En_resources.Need_enUS_Language);
-            // TODO : Check the okObjectResult
+            var result = _questionController.CreateQuestion(newQuestionCreationDto);
+            var okObjectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(400);
+
+            okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
 
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
+        // TODO : CreateQuestion_NO_WithError500Returned()
         // TODO : CreateQuestion_NO_BadLanguageCode()
         #endregion
     }

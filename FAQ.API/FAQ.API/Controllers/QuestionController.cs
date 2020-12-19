@@ -9,6 +9,7 @@ using FAQ.Datas.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net.Mime;
 using FAQ.API.Resources;
+using System;
 
 namespace FAQ.API.Controllers
 {
@@ -68,11 +69,21 @@ namespace FAQ.API.Controllers
                 });
             }
 
-            // TODO : check the error and send properly error status code
-            var result = _questionService.CreateQuestion(newQuestion);
-
-            // TODO : May be return the id of the question created
-            return Ok(result);
+            try
+            {
+                var result = _questionService.CreateQuestion(newQuestion);
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception)
+            {
+                // Return 500 because of another unknow error
+                _logger.LogError($"Creating question Error with question : [{newQuestion}]");
+                return StatusCode(500);
+            }
         }
 
         /// <summary>

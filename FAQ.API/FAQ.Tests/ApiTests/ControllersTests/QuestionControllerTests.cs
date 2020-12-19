@@ -148,7 +148,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
 
             var result = _questionController.GetQuestion(language, questionId);
-            var okObjectResult = result as OkObjectResult;
+            var okObjectResult = result as NotFoundObjectResult;
 
             Assert.NotNull(okObjectResult);
             okObjectResult.StatusCode.Should().Be(404);
@@ -165,7 +165,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
 
             var result = _questionController.GetQuestion(language, questionId);
-            var okObjectResult = result as OkObjectResult;
+            var okObjectResult = result as NotFoundObjectResult;
 
             Assert.NotNull(okObjectResult);
             okObjectResult.StatusCode.Should().Be(404);

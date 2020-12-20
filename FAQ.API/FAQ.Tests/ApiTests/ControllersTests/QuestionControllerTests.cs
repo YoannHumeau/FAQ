@@ -261,7 +261,71 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
-        // TODO : CreateQuestion_NO_WithError500Returned()
+        [Fact]
+        public void CreateQuestion_NO_BadLanguageCodeQuestion()
+        {
+            string language = "en_US";
+            string badLanguage = "gr_GR";
+
+            var newQuestionCreationDto = new QuestionModelCreationDto
+            {
+                Language = badLanguage,
+                TextContent = DataExamples.QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0).QuestionText,
+                Answers = new List<AnswerModelDto>
+                {
+                    new AnswerModelDto
+                    {
+                        Language = language,
+                        Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+                    }
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
+
+            var result = _questionController.CreateQuestion(newQuestionCreationDto);
+            var okObjectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(400);
+
+            okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
+
+            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+        }
+        
+        [Fact]
+        public void CreateQuestion_NO_BadLanguageCodeQuestionAndAnswer()
+        {
+            string badLanguage = "gr_GR";
+
+            var newQuestionCreationDto = new QuestionModelCreationDto
+            {
+                Language = badLanguage,
+                TextContent = DataExamples.QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0).QuestionText,
+                Answers = new List<AnswerModelDto>
+                {
+                    new AnswerModelDto
+                    {
+                        Language = badLanguage,
+                        Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+                    }
+                }
+            };
+
+            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
+
+            var result = _questionController.CreateQuestion(newQuestionCreationDto);
+            var okObjectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(400);
+
+            okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
+
+            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+        }
+
         [Fact]
         public void CreateQuestion_NO_WithError500Returned()
         {
@@ -288,8 +352,6 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             statusCodeResult.StatusCode.Should().Be(500);
         }
-
-        // TODO : CreateQuestion_NO_BadLanguageCode()
         #endregion
     }
 }

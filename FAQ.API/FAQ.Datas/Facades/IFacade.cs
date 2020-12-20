@@ -43,7 +43,7 @@ namespace FAQ.Datas.Facades
         /// Create an answer
         /// </summary>
         /// <param name="answer">Answer to create</param>
-        public void CreateAnswer(AnswerModel answer);
+        public int CreateAnswer(AnswerModel answer);
 
         /// <summary>
         /// Update an answer

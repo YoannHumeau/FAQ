@@ -18,13 +18,14 @@ namespace FAQ.Datas.DAO
             _faqContext = faqContext;
         }
 
-        internal void CreateAnswer(AnswerModel answer)
+        internal int CreateAnswer(AnswerModel answer)
         {
             _faqContext.Add(answer);
 
             try
             {
                 _faqContext.SaveChanges();
+                return answer.Id;
             }
             catch (Exception e)
             {

@@ -126,9 +126,9 @@ namespace FAQ.Datas.Facades.Implementations
 
         #region Answers
         /// <inheritdoc/>
-        public void CreateAnswer(AnswerModel answer)
+        public int CreateAnswer(AnswerModel answer)
         {
-            _answerDAO.CreateAnswer(answer);
+            return _answerDAO.CreateAnswer(answer);
         }
 
         /// <inheritdoc/>

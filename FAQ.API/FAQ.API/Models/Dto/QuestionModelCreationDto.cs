@@ -2,6 +2,9 @@
 
 namespace FAQ.API.Models.Dto
 {
+    /// <summary>
+    /// QuestionModelCreationDto class
+    /// </summary>
     public class QuestionModelCreationDto
     {
         /// <summary>

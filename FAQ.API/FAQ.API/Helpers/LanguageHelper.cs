@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace FAQ.API.Helpers
 {
+    /// <summary>
+    /// LanguageHelper class
+    /// </summary>
     public static class LanguageHelper
     {
         private static readonly string defaultLanguage = "en_US";

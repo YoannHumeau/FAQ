@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace FAQ.API.Services
 {
+    /// <summary>
+    /// Question Service
+    /// </summary>
     public interface IQuestionService
     {
         /// <summary>

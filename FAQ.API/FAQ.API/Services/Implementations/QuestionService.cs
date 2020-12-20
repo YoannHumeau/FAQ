@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace FAQ.API.Services.Implementations
 {
+    /// <inheritdoc/>
     public class QuestionService : IQuestionService
     {
         private readonly IFacade _facade;

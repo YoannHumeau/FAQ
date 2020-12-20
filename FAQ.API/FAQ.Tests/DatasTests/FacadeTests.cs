@@ -334,9 +334,13 @@ namespace FAQ.Tests.DatasTests
             QuestionsDataExamples.NewAnswerFrench.QuestionModelId = newQuestionId;
 
             // Insert the answer in database
-            facade.CreateAnswer(QuestionsDataExamples.NewAnswerFrench);
+            facade = new Facade(_dbTests);
+            var result = facade.CreateAnswer(QuestionsDataExamples.NewAnswerFrench);
+
+            result.Should().Be(8);
 
             // Check the question with answer inserted is OK
+            newQuestion.Answers.Add(QuestionsDataExamples.NewAnswerFrench);
             facade = new Facade(_dbTests);
             var questionResult = facade.GetQuestion("fr_FR", newQuestionId);
             questionResult.Should().BeEquivalentTo(newQuestion);

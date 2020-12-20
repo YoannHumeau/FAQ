@@ -61,7 +61,7 @@ namespace FAQ.API.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Question not found&quot;.
+        ///   Looks up a localized string similar to Question not found.
         /// </summary>
         public static string QuestionNotFound {
             get {

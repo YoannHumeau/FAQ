@@ -196,18 +196,17 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             };
 
             // Put a bad language in the static dataset test
-            newQuestion.QuestionTranslates.ElementAt(0).Language = "gr_GR";
+            newQuestion.Answers.ElementAt(0).Language = "gr_GR";
 
             _mockFacade.Setup(x => x.CreateQuestion(newQuestion));
 
-            Assert.Throws<ArgumentException>(() => _questionService.CreateQuestion(newQuestion));
-                // TODO : Fix the test bug (tip => new test with good language question and bad language answer) 
-                //.Message.Should().Be(API.Resources.En_resource.TranslateBadLanguageAnswer);
+            Assert.Throws<ArgumentException>(() => _questionService.CreateQuestion(newQuestion))
+                .Message.Should().Be(API.Resources.En_resource.TranslateBadLanguageAnswer);
 
             _mockFacade.Verify(x => x.CreateQuestion(newQuestion), Times.Never);
 
             // Put the original value in the static dataset test
-            newQuestion.QuestionTranslates.ElementAt(0).Language = "en_US";
+            newQuestion.Answers.ElementAt(0).Language = "en_US";
         }
         #endregion
     }

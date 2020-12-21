@@ -118,14 +118,14 @@ namespace FAQ.Tests.DatasTests
 
             var result = _facade.GetQuestion("fr_FR", questionId);
 
-            var myQuestion = new QuestionModel
+            var questionEnAnswerFr = new QuestionModel
             {
                 Id = questionId,
                 QuestionTranslates = QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).QuestionTranslates,
                 Answers = new List<AnswerModel> { QuestionsDataExamples.AnswersListFrench.ElementAt(questionId-1) }
             };
 
-            result.Should().BeEquivalentTo(myQuestion,
+            result.Should().BeEquivalentTo(questionEnAnswerFr,
                     options => options.Excluding(q => q.QuestionTranslates)
                 );
         }

@@ -60,7 +60,9 @@ namespace FAQ.API.Controllers
             catch (Exception e)
             {
                 // Return 500 because of another unknow error
-                _logger.LogError($"Creating question Error with question : [{newAnswer}]");
+                _logger.LogError(
+                    $"Creating question Error with question : [{newAnswer}]" +
+                    $"ExceptionMessage: {e.Message}");
                 return StatusCode(500);
             }
 

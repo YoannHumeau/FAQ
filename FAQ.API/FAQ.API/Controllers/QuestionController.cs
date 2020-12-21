@@ -78,10 +78,12 @@ namespace FAQ.API.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // Return 500 because of another unknow error
-                _logger.LogError($"Creating question Error with question : [{newQuestion}]");
+                _logger.LogError(
+                    $"Creating question Error with question : [{newQuestion}]" +
+                    $"ExceptionMessage: {e.Message}");
                 return StatusCode(500);
             }
         }

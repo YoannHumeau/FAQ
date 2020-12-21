@@ -123,4 +123,7 @@
   <data name="Need_enUS_Language" xml:space="preserve">
     <value>en_US language needed</value>
   </data>
+  <data name="QuestionDoesNotExists" xml:space="preserve">
+    <value>Question does not exists</value>
+  </data>
 </root>

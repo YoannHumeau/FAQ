@@ -1,6 +1,7 @@
 ﻿using FAQ.Datas.DAO;
 using FAQ.Datas.DataAccess;
 using FAQ.Datas.Models;
+using FAQ.Datas.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,6 +129,11 @@ namespace FAQ.Datas.Facades.Implementations
         /// <inheritdoc/>
         public int CreateAnswer(AnswerModel answer)
         {
+            if (_questionDAO.GetQuestion("en_US", answer.QuestionModelId) == null)
+            {
+                throw new ArgumentException(En_resources.QuestionDoesNotExists, En_resources.QuestionDoesNotExists);
+            }
+
             return _answerDAO.CreateAnswer(answer);
         }
 

@@ -21,7 +21,7 @@ namespace FAQ.API.Controllers
     [Route("[controller]")]
     public class AnswerController : ControllerBase
     {
-        private readonly ILogger<QuestionController> _logger;
+        private readonly ILogger<AnswerController> _logger;
         private readonly IMapper _mapper;
         private readonly IAnswerService _answerService;
 
@@ -31,7 +31,7 @@ namespace FAQ.API.Controllers
         /// <param name="logger">Logger</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="answerService">Answer service</param>
-        public AnswerController(ILogger<QuestionController> logger, IMapper mapper, IAnswerService answerService)
+        public AnswerController(ILogger<AnswerController> logger, IMapper mapper, IAnswerService answerService)
         {
             _logger = logger;
             _mapper = mapper;

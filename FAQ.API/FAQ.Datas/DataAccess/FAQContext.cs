@@ -43,7 +43,7 @@ namespace FAQ.Datas.DataAccess
 
             // Answers
             modelBuilder.Entity<AnswerModel>()
-                .HasIndex(a => new { a.Language, a.QuestionModelId })
+                .HasIndex(a => new { a.Language, a.QuestionModelId, a.Text })
                 .IsUnique();
 
             modelBuilder.Entity<AnswerModel>()

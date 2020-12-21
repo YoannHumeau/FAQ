@@ -48,9 +48,22 @@ namespace FAQ.API.Controllers
         {
             var newAnswer = _mapper.Map<AnswerModel>(answerDto);
 
-            var result = _answerService.CreateAnswer(newAnswer);
+            try
+            {
+                var result = _answerService.CreateAnswer(newAnswer);
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                // Return 500 because of another unknow error
+                _logger.LogError($"Creating question Error with question : [{newAnswer}]");
+                return StatusCode(500);
+            }
 
-            return Ok(result);
         }
 
     }

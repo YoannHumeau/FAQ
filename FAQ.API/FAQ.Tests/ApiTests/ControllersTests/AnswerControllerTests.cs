@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace FAQ.Tests.ApiTests.ControllersTests
@@ -83,6 +82,49 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockAnswerService.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
+
+        [Fact]
+        public void CreateAnswer_NO_BadLanguageCode()
+        {
+            string badLanguage = "gr_GR";
+
+            var newAnswerCreationDto = new AnswerModelCreationDto
+            {
+                Language = badLanguage,
+                Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+            };
+
+            _mockAnswerService.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
+
+            var result = _answerController.CreateAnswer(newAnswerCreationDto);
+            var okObjectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(400);
+
+            okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
+
+            _mockAnswerService.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
+        }
         #endregion
+
+        [Fact]
+        public void CreateAnswer_NO_WithError500Returned()
+        {
+            string language = "en_US";
+
+            var newAnswerCreationDto = new AnswerModelCreationDto
+            {
+                Language = language,
+                Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+            };
+
+            _mockAnswerService.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>())).Throws(new Exception());
+
+            var result = _answerController.CreateAnswer(newAnswerCreationDto);
+            var statusCodeResult = result as StatusCodeResult;
+
+            statusCodeResult.StatusCode.Should().Be(500);
+        }
     }
 }

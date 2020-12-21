@@ -21,9 +21,9 @@ namespace FAQ.API.Services.Implementations
         }
 
         /// <inheritdoc/>
-        public int CreateAnswer(AnswerModel question)
+        public int CreateAnswer(AnswerModel answer)
         {
-            return _facade.CreateAnswer(question);
+            return _facade.CreateAnswer(answer);
         }
     }
 }

@@ -23,6 +23,11 @@ namespace FAQ.API.Services.Implementations
         /// <inheritdoc/>
         public int CreateAnswer(AnswerModel answer)
         {
+            if (!Helpers.LanguageHelper.IsLanguageOK(answer.Language))
+            {
+                throw new ArgumentException(Resources.En_resource.TranslateBadLanguageAnswer);
+            }
+
             return _facade.CreateAnswer(answer);
         }
     }

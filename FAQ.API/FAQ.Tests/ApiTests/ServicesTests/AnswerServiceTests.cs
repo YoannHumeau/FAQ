@@ -5,10 +5,8 @@ using FAQ.Datas.Models;
 using FluentAssertions;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
+using FAQ.API.Resources;
 
 namespace FAQ.Tests.ApiTests.ServicesTests
 {
@@ -64,6 +62,25 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
+
+        [Fact]
+        public void CreateAnswer_NO_BadLanguagueCode()
+        {
+            var newAnswer = new AnswerModel()
+            {
+                Language = "gr_GR",
+                Text = "That doesn't matter :)"
+            };
+
+            _mockFacade.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>()))
+                .Throws(new ArgumentException(En_resource.TranslateBadLanguageAnswer));
+
+            Assert.Throws<ArgumentException>(() => _answerService.CreateAnswer(newAnswer))
+                .Message.Should().Be(En_resource.TranslateBadLanguageAnswer);
+
+            _mockFacade.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Never);
+        }
         #endregion
     }
 }
+    

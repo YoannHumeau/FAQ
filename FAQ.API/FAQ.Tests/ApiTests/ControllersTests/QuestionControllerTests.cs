@@ -19,19 +19,19 @@ namespace FAQ.Tests.ApiTests.ControllersTests
     {
         public readonly QuestionController _questionController;
 
-        public readonly Mock<IQuestionService> _mockFacade;
+        public readonly Mock<IQuestionService> _mockQuestionService;
         private readonly Mock<ILogger<QuestionController>> _mockLogger;
         private readonly IMapper _mapper;
 
         public QuestionControllerTests()
         {
             _mockLogger = new Mock<ILogger<QuestionController>>();
-            _mockFacade = new Mock<IQuestionService>();
+            _mockQuestionService = new Mock<IQuestionService>();
 
             var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new AutoMapping()));
             _mapper = mapperConfig.CreateMapper();
 
-            _questionController = new QuestionController(_mockLogger.Object, _mapper, _mockFacade.Object);
+            _questionController = new QuestionController(_mockLogger.Object, _mapper, _mockQuestionService.Object);
         }
 
         #region Get all questions
@@ -40,7 +40,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         {
             string language = "en_US";
 
-            _mockFacade.Setup(x => x.GetQuestions(language))
+            _mockQuestionService.Setup(x => x.GetQuestions(language))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish);
 
             var result = _questionController.GetQuestions(language);
@@ -57,7 +57,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         {
             string language = "fr_FR";
 
-            _mockFacade.Setup(x => x.GetQuestions(language))
+            _mockQuestionService.Setup(x => x.GetQuestions(language))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench);
 
             var result = _questionController.GetQuestions(language);
@@ -74,7 +74,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         {
             string language = "gr_GR";
 
-            _mockFacade.Setup(x => x.GetQuestions(language))
+            _mockQuestionService.Setup(x => x.GetQuestions(language))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish);
 
             var result = _questionController.GetQuestions(language);
@@ -94,7 +94,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             int questionId = 2;
             string language = "en_US";
 
-            _mockFacade.Setup(x => x.GetQuestion(language, questionId))
+            _mockQuestionService.Setup(x => x.GetQuestion(language, questionId))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
 
             var result = _questionController.GetQuestion(language, questionId);
@@ -112,7 +112,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             int questionId = 2;
             string language = "fr_FR";
 
-            _mockFacade.Setup(x => x.GetQuestion(language, questionId))
+            _mockQuestionService.Setup(x => x.GetQuestion(language, questionId))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListFrench.ElementAt(questionId-1));
 
             var result = _questionController.GetQuestion(language, questionId);
@@ -130,7 +130,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             int questionId = 2;
             string language = "gr_GR";
 
-            _mockFacade.Setup(x => x.GetQuestion(language, questionId))
+            _mockQuestionService.Setup(x => x.GetQuestion(language, questionId))
                 .Returns(DataExamples.QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1));
 
             var result = _questionController.GetQuestion(language, questionId);
@@ -148,7 +148,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             int questionId = 999;
             string language = "en_US";
 
-            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
+            _mockQuestionService.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
 
             var result = _questionController.GetQuestion(language, questionId);
             var okObjectResult = result as NotFoundObjectResult;
@@ -165,7 +165,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             int questionId = 999;
             string language = "en_US";
 
-            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
+            _mockQuestionService.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
 
             var result = _questionController.GetQuestion(language, questionId);
             var okObjectResult = result as NotFoundObjectResult;
@@ -182,7 +182,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             int questionId = 999;
             string language = "gr_GR";
 
-            _mockFacade.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
+            _mockQuestionService.Setup(x => x.GetQuestion(language, questionId)).Returns(() => null);
 
             var result = _questionController.GetQuestion(language, questionId);
             var okObjectResult = result as NotFoundObjectResult;
@@ -216,7 +216,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Returns(questionCreatedId);
+            _mockQuestionService.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Returns(questionCreatedId);
 
             var result =_questionController.CreateQuestion(newQuestionCreationDto);
             var okObjectResult = result as OkObjectResult;
@@ -226,7 +226,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             okObjectResult.Value.Should().Be(questionCreatedId);
 
-            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+            _mockQuestionService.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
         [Fact]
@@ -248,7 +248,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
+            _mockQuestionService.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
 
             var result = _questionController.CreateQuestion(newQuestionCreationDto);
             var okObjectResult = result as BadRequestObjectResult;
@@ -258,7 +258,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
 
-            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+            _mockQuestionService.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
         [Fact]
@@ -281,7 +281,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
+            _mockQuestionService.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
 
             var result = _questionController.CreateQuestion(newQuestionCreationDto);
             var okObjectResult = result as BadRequestObjectResult;
@@ -291,7 +291,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
 
-            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+            _mockQuestionService.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
         
         [Fact]
@@ -313,7 +313,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
+            _mockQuestionService.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
 
             var result = _questionController.CreateQuestion(newQuestionCreationDto);
             var okObjectResult = result as BadRequestObjectResult;
@@ -323,7 +323,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             okObjectResult.Value.Should().Be(Datas.Resources.En_resources.Need_enUS_Language);
 
-            _mockFacade.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
+            _mockQuestionService.Verify(x => x.CreateQuestion(It.IsAny<QuestionModel>()), Times.Once);
         }
 
         [Fact]
@@ -345,7 +345,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 }
             };
 
-            _mockFacade.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new Exception());
+            _mockQuestionService.Setup(x => x.CreateQuestion(It.IsAny<QuestionModel>())).Throws(new Exception());
 
             var result = _questionController.CreateQuestion(newQuestionCreationDto);
             var statusCodeResult = result as StatusCodeResult;

@@ -2,6 +2,7 @@
 using FAQ.API.Models.Dto;
 using FAQ.API.Services;
 using FAQ.Datas.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -44,6 +45,9 @@ namespace FAQ.API.Controllers
         /// <param name="answerDto"><see cref="AnswerModelCreationDto"/> Answer to create</param>
         [HttpPost]
         [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult CreateAnswer([FromBody] AnswerModelCreationDto answerDto)
         {
             var newAnswer = _mapper.Map<AnswerModel>(answerDto);
@@ -63,10 +67,8 @@ namespace FAQ.API.Controllers
                 _logger.LogError(
                     $"Creating question Error with question : [{newAnswer}]" +
                     $"ExceptionMessage: {e.Message}");
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
-
     }
 }

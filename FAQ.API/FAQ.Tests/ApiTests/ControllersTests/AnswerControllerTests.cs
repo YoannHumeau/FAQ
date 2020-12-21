@@ -58,6 +58,31 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockAnswerService.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
+
+        [Fact]
+        public void CreateQuestion_OK_french()
+        {
+            int answerCreatedId = 4;
+            string language = "fr_FR";
+
+            var newAnswerCreationDto = new AnswerModelCreationDto
+            {
+                Language = language,
+                Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+            };
+
+            _mockAnswerService.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>())).Returns(answerCreatedId);
+
+            var result = _answerController.CreateAnswer(newAnswerCreationDto);
+            var okObjectResult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().Be(answerCreatedId);
+
+            _mockAnswerService.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
+        }
         #endregion
     }
 }

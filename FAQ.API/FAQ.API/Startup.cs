@@ -43,6 +43,7 @@ namespace FAQ.API
 
             services.AddScoped<IFacade>(sp => new Facade(Configuration.GetConnectionString("Default")));
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IAnswerService, AnswerService>();
 
             services.AddControllers();
 

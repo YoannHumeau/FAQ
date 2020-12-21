@@ -17,6 +17,8 @@ namespace FAQ.API.Models.Dto
             // Tip : CreateMap < TSource, TDestination >
 
             CreateMap<AnswerModel, AnswerModelDto>();
+            CreateMap<AnswerModelCreationDto, AnswerModel>();
+
             CreateMap<QuestionModel, QuestionModelDto>();
         }
     }

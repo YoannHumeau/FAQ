@@ -62,8 +62,7 @@ namespace FAQ.Datas.Facades.Implementations
                 result = _questionDAO.GetQuestion("en_US", id);
 
             // In case of double language, clear the default language answer
-            if (result.Answers.Count > 1)
-                result.Answers.Remove(result.Answers.Where(a => a.Language == language).FirstOrDefault());
+            result.Answers = result.Answers.Where(a => a.Language == language).ToList();
 
             return result;
         }

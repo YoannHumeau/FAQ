@@ -108,7 +108,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void GetQuestion_No_NoFrenchTranslate_LoadDefaultEnglish()
+        public void GetQuestion_No_NoFrenchQuestionTranslateButAnswerYes_LoadDefaultQuestionEnglish()
         {
             int questionId = 2;
 
@@ -118,7 +118,14 @@ namespace FAQ.Tests.DatasTests
 
             var result = _facade.GetQuestion("fr_FR", questionId);
 
-            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1),
+            var myQuestion = new QuestionModel
+            {
+                Id = questionId,
+                QuestionTranslates = QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).QuestionTranslates,
+                Answers = new List<AnswerModel> { QuestionsDataExamples.AnswersListFrench.ElementAt(questionId-1) }
+            };
+
+            result.Should().BeEquivalentTo(myQuestion,
                     options => options.Excluding(q => q.QuestionTranslates)
                 );
         }
@@ -142,7 +149,6 @@ namespace FAQ.Tests.DatasTests
 
             result.Should().BeNull();
         }
-
         #endregion
 
         #region Create questions
@@ -408,5 +414,30 @@ namespace FAQ.Tests.DatasTests
         #endregion
 
         // TODO : Tests Create Answer
+        #region CreateAnswer
+        [Fact]
+        public void CreateAnswer_OK_English()
+        {
+            int questionId = 2;
+            string language = "en_US";
+
+            // Add the new answer for the test
+            QuestionsDataExamples.NewAnswerEnglish.QuestionModelId = questionId;
+            QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).Answers.Add(QuestionsDataExamples.NewAnswerEnglish);
+
+            var newQuestionId = _facade.CreateAnswer(QuestionsDataExamples.NewAnswerEnglish);
+
+            var facade = new Facade(_dbTests);
+            var result = facade.GetQuestion(language, questionId);
+            result.Should().BeEquivalentTo(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1), 
+                option => option.Excluding(q => q.QuestionTranslates)
+                );
+
+            // Clean the static data tests values
+            QuestionsDataExamples.NewAnswerEnglish.QuestionModelId = 0;
+            QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).Answers
+                .Remove(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).Answers.Last());
+        }
+        #endregion
     }
 }

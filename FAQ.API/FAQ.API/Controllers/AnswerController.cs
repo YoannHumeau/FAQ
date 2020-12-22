@@ -77,7 +77,7 @@ namespace FAQ.API.Controllers
         /// </summary>
         /// <param name="answerDto"><see cref="AnswerModelUpdateDto"/> Answwer to update</param>
         /// <param name="id">Id of the answer</param>
-        /// <returns><see cref="AnswerModelDto"/> Answer updated<returns>
+        /// <returns><see cref="AnswerModelDto"/> Answer updated</returns>
         [HttpPut("{id}")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]

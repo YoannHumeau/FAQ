@@ -283,6 +283,28 @@ namespace FAQ.Tests.DatasTests
         }
         #endregion
 
+        #region Update question translat
+        [Fact]
+        public void UpdateQuestionTranslate()
+        {
+            int questionId = 3;
+            int questionTranslateId = 6;
+            string questionTranslateText = "A question translate updated succesfully";
+
+            var updatedQuestionTranslate = new QuestionTranslateModel
+            {
+                Id = questionTranslateId,
+                Language = "en_US",
+                QuestionText = questionTranslateText,
+                QuestionModelId = questionId
+            };
+
+            var result = _facade.UpdateQuestionTranslate(questionTranslateId, questionTranslateText);
+
+            result.Should().BeEquivalentTo(updatedQuestionTranslate);
+        }
+        #endregion
+
         #region Remove question translate
         [Fact]
         public void RemoveQuestionTranslate_OK_French()

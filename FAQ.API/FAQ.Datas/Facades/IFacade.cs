@@ -30,9 +30,10 @@ namespace FAQ.Datas.Facades
         /// <summary>
         /// Update a question translate
         /// </summary>
-        /// <param name="question">question translate to update</param>
+        /// <param name="id">Id of the question translate to update</param>
+        /// <param name="questionTranslateText">Text of the question translate to update</param>
         /// <returns>Question translate updated</returns>
-        public QuestionTranslateModel UpdateQuestionTranslate(QuestionTranslateModel questionTranslate);
+        public QuestionTranslateModel UpdateQuestionTranslate(int id, string questionTranslateText);
 
         /// <summary>
         /// Remove a question

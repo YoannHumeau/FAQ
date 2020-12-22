@@ -80,9 +80,9 @@ namespace FAQ.Datas.Facades.Implementations
         }
 
         /// <inheritdoc/>
-        public QuestionTranslateModel UpdateQuestionTranslate(QuestionTranslateModel questionTranslate)
+        public QuestionTranslateModel UpdateQuestionTranslate(int id, string questionTranslateText)
         {
-            var questionTranslateDb = _questionDAO.GetQuestionTranslate(questionTranslate.Id);
+            var questionTranslateDb = _questionDAO.GetQuestionTranslate(id);
 
             if (questionTranslateDb == null)
             {
@@ -90,7 +90,7 @@ namespace FAQ.Datas.Facades.Implementations
             }
             else
             {
-                questionTranslateDb.QuestionText = questionTranslate.QuestionText;
+                questionTranslateDb.QuestionText = questionTranslateText;
                 return _questionDAO.UpdateQuestionTranslate(questionTranslateDb);
             }
         }

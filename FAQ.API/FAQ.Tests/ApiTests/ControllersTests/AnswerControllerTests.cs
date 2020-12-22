@@ -127,6 +127,8 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             var statusCodeResult = result as StatusCodeResult;
 
             statusCodeResult.StatusCode.Should().Be(500);
+
+            _mockAnswerService.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
         #endregion
 

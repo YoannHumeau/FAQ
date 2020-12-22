@@ -3,12 +3,14 @@ using FAQ.API.Controllers;
 using FAQ.API.Models.Dto;
 using FAQ.API.Services;
 using FAQ.Datas.Models;
+using FAQ.Tests.DataExamples;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace FAQ.Tests.ApiTests.ControllersTests
@@ -106,7 +108,6 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockAnswerService.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
-        #endregion
 
         [Fact]
         public void CreateAnswer_NO_WithError500Returned()
@@ -126,5 +127,52 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             statusCodeResult.StatusCode.Should().Be(500);
         }
+        #endregion
+
+        #region Update answer
+        [Fact]
+        public void UpdateAnswer_OK_English()
+        {
+            int questionid = 2;
+            int answerUpdateId = 4;
+
+            var updateQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.QuestionsListFrench.ElementAt(questionid-1).QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.UpdateAnswerFrench
+                }
+            };
+
+            var answerUpdate = new AnswerModelUpdateDto
+            {
+                Text = QuestionsDataExamples.UpdateAnswerFrench.Text
+            };
+
+            var answerReturned = new AnswerModel
+            {
+                Id = answerUpdateId,
+                Language = QuestionsDataExamples.UpdateAnswerFrench.Language,
+                Text = QuestionsDataExamples.UpdateAnswerFrench.Text,
+                QuestionModelId = questionid
+            };
+
+            _mockAnswerService.Setup(x => x.UpdateAnswer(It.IsAny<AnswerModel>())).Returns(answerReturned);
+
+            var result = _answerController.UpdateAnswer(answerUpdate, answerUpdateId);
+            var okObjectResult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().Be(answerReturned);
+
+            _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
+        }
+        #endregion
     }
 }

@@ -43,6 +43,7 @@ namespace FAQ.API.Controllers
         /// Create an answer
         /// </summary>
         /// <param name="answerDto"><see cref="AnswerModelCreationDto"/> Answer to create</param>
+        /// <returns>Id of the new answer</returns>
         [HttpPost]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -59,14 +60,52 @@ namespace FAQ.API.Controllers
             }
             catch (ArgumentException e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(e?.Message);
             }
             catch (Exception e)
             {
                 // Return 500 because of another unknow error
                 _logger.LogError(
                     $"Creating question Error with question : [{newAnswer}]" +
-                    $"ExceptionMessage: {e.Message}");
+                    $"ExceptionMessage: {e?.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Update an answer
+        /// </summary>
+        /// <param name="answerDto"><see cref="AnswerModelUpdateDto"/> Answwer to update</param>
+        /// <param name="id">Id of the answer</param>
+        /// <returns><see cref="AnswerModelDto"/> Answer updated<returns>
+        [HttpPut("{id}")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult UpdateAnswer([FromBody] AnswerModelUpdateDto answerDto, int id)
+        {
+            var updateAnswer = new AnswerModel
+            {
+                Id = id,
+                Text = answerDto.Text
+            };
+
+            try
+            {
+                var result = _answerService.UpdateAnswer(updateAnswer);
+                return Ok(result);
+            }
+            catch(ArgumentException e)
+            {
+                return BadRequest(e?.Message);
+            }
+            catch(Exception e)
+            {
+                // Return 500 because of another unknow error
+                _logger.LogError(
+                    $"Creating question Error with update question : [{updateAnswer}] on Id : [{id}]" +
+                    $"ExceptionMessage: {e?.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

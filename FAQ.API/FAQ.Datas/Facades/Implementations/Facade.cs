@@ -139,20 +139,20 @@ namespace FAQ.Datas.Facades.Implementations
         /// <inheritdoc/>
         public AnswerModel UpdateAnswer(AnswerModel answer)
         {
-            var answerDb = _answerDAO.FindAnswer(answer);
+            var answerDb = _answerDAO.GetAnswer(answer.Id);
 
             if (answerDb == null)
             {
-                throw new Exception(Resources.En_resources.AnswerDoesNotExists);
+                // TODO : Check in units tests the exception
+                throw new ArgumentException(En_resources.AnswerDoesNotExists);
             }
             else
             {
                 answerDb.Text = answer.Text;
                 _answerDAO.UpdateAnswer(answerDb);
-                return _answerDAO.FindAnswer(answerDb);
+                return answerDb;
             }
         }
-
         #endregion
     }
 }

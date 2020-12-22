@@ -317,6 +317,7 @@ namespace FAQ.Tests.DatasTests
         public void UpdateAnswer_OK_English()
         {
             int questionid = 2;
+            int answerUpdateId = 3;
 
             var updateQuestion = new QuestionModel
             {
@@ -330,21 +331,32 @@ namespace FAQ.Tests.DatasTests
                 }
             };
 
+            var answerUpdate = new AnswerModel
+            {
+                Id = answerUpdateId,
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text
+            };
+
+            // Adapt the data test for the Db
             updateQuestion.Answers.ElementAt(0).QuestionModelId = questionid;
 
-            var answerUpdating = _facade.UpdateAnswer(updateQuestion.Answers.ElementAt(0));
+            var answerUpdating = _facade.UpdateAnswer(answerUpdate);
 
             var questionWithAnswerUpdated = _facade.GetQuestion("en_US", questionid);
 
             questionWithAnswerUpdated.Answers.ElementAt(0).Should().BeEquivalentTo(updateQuestion.Answers.ElementAt(0),
                 options => options.Excluding(a => a.Id)
                 );
+
+            // Put the data test in original vlaue
+            updateQuestion.Answers.ElementAt(0).QuestionModelId = 0;
         }
 
         [Fact]
         public void UpdateAnswer_OK_French()
         {
             int questionid = 2;
+            int answerUpdateId = 4;
 
             var updateQuestion = new QuestionModel
             {
@@ -358,15 +370,25 @@ namespace FAQ.Tests.DatasTests
                 }
             };
 
+            var answerUpdate = new AnswerModel
+            {
+                Id = answerUpdateId,
+                Text = QuestionsDataExamples.UpdateAnswerFrench.Text
+            };
+
+            // Adapt the data test for the Db
             updateQuestion.Answers.ElementAt(0).QuestionModelId = questionid;
 
-            var answerUpdating = _facade.UpdateAnswer(updateQuestion.Answers.ElementAt(0));
+            var answerUpdating = _facade.UpdateAnswer(answerUpdate);
 
             var questionWithAnswerUpdated = _facade.GetQuestion("fr_FR", questionid);
 
             questionWithAnswerUpdated.Answers.ElementAt(0).Should().BeEquivalentTo(updateQuestion.Answers.ElementAt(0),
                 options => options.Excluding(a => a.Id)
                 );
+
+            // Put the data test in original vlaue
+            updateQuestion.Answers.ElementAt(0).QuestionModelId = 0;
         }
         #endregion
 

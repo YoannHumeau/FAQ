@@ -126,4 +126,7 @@
   <data name="QuestionDoesNotExists" xml:space="preserve">
     <value>Question does not exists</value>
   </data>
+  <data name="QuestionTranslateDoesNotExists" xml:space="preserve">
+    <value>Question translate does not exists</value>
+  </data>
 </root>

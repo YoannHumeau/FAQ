@@ -80,6 +80,22 @@ namespace FAQ.Datas.Facades.Implementations
         }
 
         /// <inheritdoc/>
+        public QuestionTranslateModel UpdateQuestionTranslate(QuestionTranslateModel questionTranslate)
+        {
+            var questionTranslateDb = _questionDAO.GetQuestionTranslate(questionTranslate.Id);
+
+            if (questionTranslateDb == null)
+            {
+                throw new ArgumentException(En_resources.QuestionTranslateDoesNotExists);
+            }
+            else
+            {
+                questionTranslateDb.QuestionText = questionTranslate.QuestionText;
+                return _questionDAO.UpdateQuestionTranslate(questionTranslateDb);
+            }
+        }
+
+        /// <inheritdoc/>
         public bool RemoveQuestion(int id)
         {
             var question = _questionDAO.GetQuestion("en_US", id);

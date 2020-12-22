@@ -28,6 +28,13 @@ namespace FAQ.Datas.Facades
         public int CreateQuestion(QuestionModel question);
 
         /// <summary>
+        /// Update a question translate
+        /// </summary>
+        /// <param name="question">question translate to update</param>
+        /// <returns>Question translate updated</returns>
+        public QuestionTranslateModel UpdateQuestionTranslate(QuestionTranslateModel questionTranslate);
+
+        /// <summary>
         /// Remove a question
         /// </summary>
         /// <param name="question"></param>

@@ -90,12 +90,42 @@ namespace FAQ.Datas.DAO
         /// <summary>
         /// Get a specific question translate
         /// </summary>
+        /// <param name="id">Id of the question translate</param>
+        /// <returns></returns>
+        internal QuestionTranslateModel GetQuestionTranslate(int id)
+        {
+            return _faqContext.QuestionsTranslates.Find(id);
+        }
+
+        /// <summary>
+        /// Get a specific question translate
+        /// </summary>
         /// <param name="language">Language of the translate</param>
         /// <param name="questionParentId">Id of the question</param>
         /// <returns></returns>
         internal QuestionTranslateModel GetQuestionTranslate(string language, int questionParentId)
         {
             return _faqContext.QuestionsTranslates.Where(qt => qt.Language == language && qt.QuestionModelId == questionParentId).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Update a question in aspecific language
+        /// </summary>
+        /// <param name="questionTranslate">Quetsion translate to update</param>
+        /// <returns>The question translate updated</returns>
+        internal QuestionTranslateModel UpdateQuestionTranslate(QuestionTranslateModel questionTranslate)
+        {
+            _faqContext.QuestionsTranslates.Update(questionTranslate);
+
+            try
+            {
+                _faqContext.SaveChanges();
+                return questionTranslate;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         /// <summary>

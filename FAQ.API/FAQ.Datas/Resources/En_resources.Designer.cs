@@ -86,5 +86,14 @@ namespace FAQ.Datas.Resources {
                 return ResourceManager.GetString("QuestionDoesNotExists", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question translate does not exists.
+        /// </summary>
+        public static string QuestionTranslateDoesNotExists {
+            get {
+                return ResourceManager.GetString("QuestionTranslateDoesNotExists", resourceCulture);
+            }
+        }
     }
 }

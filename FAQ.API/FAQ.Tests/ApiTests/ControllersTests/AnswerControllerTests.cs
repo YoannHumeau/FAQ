@@ -3,6 +3,7 @@ using FAQ.API.Controllers;
 using FAQ.API.Models.Dto;
 using FAQ.API.Services;
 using FAQ.Datas.Models;
+using FAQ.Datas.Resources;
 using FAQ.Tests.DataExamples;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -214,6 +215,50 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             okObjectResult.StatusCode.Should().Be(200);
 
             okObjectResult.Value.Should().Be(answerReturned);
+
+            _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
+        }
+
+        [Fact]
+        public void UpdateAnswer_NO_BadAnswerId()
+        {
+            int questionid = 2;
+            int answerUpdateId = 999;
+
+            var updateQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.QuestionsListFrench.ElementAt(questionid-1).QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.UpdateAnswerEnglish
+                }
+            };
+
+            var answerUpdate = new AnswerModelUpdateDto
+            {
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text
+            };
+
+            var answerReturned = new AnswerModel
+            {
+                Id = answerUpdateId,
+                Language = QuestionsDataExamples.UpdateAnswerEnglish.Language,
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text,
+                QuestionModelId = questionid
+            };
+
+            _mockAnswerService.Setup(x => x.UpdateAnswer(It.IsAny<AnswerModel>())).Throws(new ArgumentException(En_resources.AnswerDoesNotExists));
+
+            var result = _answerController.UpdateAnswer(answerUpdate, answerUpdateId);
+            var objectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(objectResult);
+            objectResult.StatusCode.Should().Be(400);
+
+            objectResult.Value.Should().Be(En_resources.AnswerDoesNotExists);
 
             _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }

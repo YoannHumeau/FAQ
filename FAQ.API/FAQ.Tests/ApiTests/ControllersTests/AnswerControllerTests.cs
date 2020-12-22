@@ -36,7 +36,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
         #region Create answer
         [Fact]
-        public void CreateQuestion_OK_English()
+        public void CreateAnswer_OK_English()
         {
             int answerCreatedId = 4;
             string language = "en_US";
@@ -44,7 +44,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             var newAnswerCreationDto = new AnswerModelCreationDto
             {
                 Language = language,
-                Text = DataExamples.QuestionsDataExamples.NewAnswerEnglish.Text
+                Text = QuestionsDataExamples.NewAnswerEnglish.Text
             };
 
             _mockAnswerService.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>())).Returns(answerCreatedId);
@@ -61,7 +61,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         }
 
         [Fact]
-        public void CreateQuestion_OK_french()
+        public void CreateAnswer_OK_french()
         {
             int answerCreatedId = 4;
             string language = "fr_FR";
@@ -93,7 +93,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             var newAnswerCreationDto = new AnswerModelCreationDto
             {
                 Language = badLanguage,
-                Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+                Text = QuestionsDataExamples.NewAnswerFrench.Text
             };
 
             _mockAnswerService.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>())).Throws(new ArgumentException(Datas.Resources.En_resources.Need_enUS_Language));
@@ -117,7 +117,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             var newAnswerCreationDto = new AnswerModelCreationDto
             {
                 Language = language,
-                Text = DataExamples.QuestionsDataExamples.NewAnswerFrench.Text
+                Text = QuestionsDataExamples.NewAnswerFrench.Text
             };
 
             _mockAnswerService.Setup(x => x.CreateAnswer(It.IsAny<AnswerModel>())).Throws(new Exception());

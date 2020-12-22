@@ -4,6 +4,7 @@ using FAQ.API.Models.Dto;
 using FAQ.API.Resources;
 using FAQ.API.Services;
 using FAQ.Datas.Models;
+using FAQ.Datas.Resources;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -385,6 +386,30 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             okObjectresult.StatusCode.Should().Be(200);
 
             okObjectresult.Value.Should().BeEquivalentTo(updatedQuestionTranslate);
+
+            _mockQuestionTranslateService.Verify(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText), Times.Once);
+        }
+
+        [Fact]
+        public void UpdateQuestionTranslate_No_BadQuestionTranslateId()
+        {
+            int questionTranslateId = 777;
+
+            var newUpdateQuestionTranslate = new QuestionTranslateModelCreationDto
+            {
+                QuestionText = DataExamples.QuestionsDataExamples.NewQuestionEnglish.TextContent
+            };
+
+            _mockQuestionTranslateService.Setup(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText))
+                .Throws(new ArgumentException(En_resources.QuestionTranslateDoesNotExists));
+
+            var result = _questionController.UpdateQuestionTranslate(newUpdateQuestionTranslate, questionTranslateId);
+            var badObjectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(badObjectResult);
+            badObjectResult.StatusCode.Should().Be(400);
+
+            badObjectResult.Value.Should().Be(En_resources.QuestionTranslateDoesNotExists);
 
             _mockQuestionTranslateService.Verify(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText), Times.Once);
         }

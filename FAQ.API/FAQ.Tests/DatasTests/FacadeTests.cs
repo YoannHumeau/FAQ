@@ -370,7 +370,6 @@ namespace FAQ.Tests.DatasTests
         }
         #endregion
 
-        // TODO : Tests Create Answer
         #region Create answer
         [Fact]
         public void CreateAnswer_OK_English()

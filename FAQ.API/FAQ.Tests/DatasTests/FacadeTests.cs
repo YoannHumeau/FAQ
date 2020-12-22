@@ -1,6 +1,7 @@
 ﻿using FAQ.Datas.Facades;
 using FAQ.Datas.Facades.Implementations;
 using FAQ.Datas.Models;
+using FAQ.Datas.Resources;
 using FAQ.Tests.DataExamples;
 using FluentAssertions;
 using System;
@@ -311,51 +312,7 @@ namespace FAQ.Tests.DatasTests
         }
         #endregion
 
-        #region Get Answers
-        [Fact]
-        public void CreateAnswer_OK_French()
-        {
-            // Create a newquestion for insert properly
-            var newQuestion = new QuestionModel
-            {
-                QuestionTranslates = new List<QuestionTranslateModel>
-                {
-                    QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0),
-                    QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0),
-                },
-                Answers = new List<AnswerModel>
-                {
-                    QuestionsDataExamples.NewAnswerEnglish
-                }
-            };
-
-            // Create the new question in DB, facade used for creation (fix bug of cache)
-            var facade = new Facade(_dbTests);
-            facade.CreateQuestion(newQuestion);
-            var newQuestionId = facade.GetQuestions("fr_FR").Last().Id;
-
-            // Prepare the data test to check with
-            newQuestion.QuestionTranslates.Remove(newQuestion.QuestionTranslates.Where(qt => qt.Language == "en_US").FirstOrDefault());
-            newQuestion.Answers.Remove(newQuestion.Answers.Where(a => a.Language == "en_US").FirstOrDefault());
-            QuestionsDataExamples.NewAnswerFrench.QuestionModelId = newQuestionId;
-
-            // Insert the answer in database
-            facade = new Facade(_dbTests);
-            var result = facade.CreateAnswer(QuestionsDataExamples.NewAnswerFrench);
-
-            result.Should().Be(8);
-
-            // Check the question with answer inserted is OK
-            newQuestion.Answers.Add(QuestionsDataExamples.NewAnswerFrench);
-            facade = new Facade(_dbTests);
-            var questionResult = facade.GetQuestion("fr_FR", newQuestionId);
-            questionResult.Should().BeEquivalentTo(newQuestion);
-
-            // Clean the static data test
-            QuestionsDataExamples.NewAnswerFrench.QuestionModelId = 0;
-            QuestionsDataExamples.NewAnswerFrench.Id = 0;
-        }
-
+        #region Update answers
         [Fact]
         public void UpdateAnswer_OK_English()
         {
@@ -414,7 +371,7 @@ namespace FAQ.Tests.DatasTests
         #endregion
 
         // TODO : Tests Create Answer
-        #region CreateAnswer
+        #region Create answer
         [Fact]
         public void CreateAnswer_OK_English()
         {
@@ -437,6 +394,50 @@ namespace FAQ.Tests.DatasTests
             QuestionsDataExamples.NewAnswerEnglish.QuestionModelId = 0;
             QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).Answers
                 .Remove(QuestionsDataExamples.QuestionsListEnglish.ElementAt(questionId-1).Answers.Last());
+        }
+
+        [Fact]
+        public void CreateAnswer_OK_French()
+        {
+            // Create a newquestion for insert properly
+            var newQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.NewQuestionEnglish.QuestionTranslates.ElementAt(0),
+                    QuestionsDataExamples.NewQuestionFrench.QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.NewAnswerEnglish
+                }
+            };
+
+            // Create the new question in DB, facade used for creation (fix bug of cache)
+            var facade = new Facade(_dbTests);
+            facade.CreateQuestion(newQuestion);
+            var newQuestionId = facade.GetQuestions("fr_FR").Last().Id;
+
+            // Prepare the data test to check with
+            newQuestion.QuestionTranslates.Remove(newQuestion.QuestionTranslates.Where(qt => qt.Language == "en_US").FirstOrDefault());
+            newQuestion.Answers.Remove(newQuestion.Answers.Where(a => a.Language == "en_US").FirstOrDefault());
+            QuestionsDataExamples.NewAnswerFrench.QuestionModelId = newQuestionId;
+
+            // Insert the answer in database
+            facade = new Facade(_dbTests);
+            var result = facade.CreateAnswer(QuestionsDataExamples.NewAnswerFrench);
+
+            result.Should().Be(8);
+
+            // Check the question with answer inserted is OK
+            newQuestion.Answers.Add(QuestionsDataExamples.NewAnswerFrench);
+            facade = new Facade(_dbTests);
+            var questionResult = facade.GetQuestion("fr_FR", newQuestionId);
+            questionResult.Should().BeEquivalentTo(newQuestion);
+
+            // Clean the static data test
+            QuestionsDataExamples.NewAnswerFrench.QuestionModelId = 0;
+            QuestionsDataExamples.NewAnswerFrench.Id = 0;
         }
         #endregion
     }

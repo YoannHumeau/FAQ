@@ -439,6 +439,22 @@ namespace FAQ.Tests.DatasTests
             QuestionsDataExamples.NewAnswerFrench.QuestionModelId = 0;
             QuestionsDataExamples.NewAnswerFrench.Id = 0;
         }
+
+        [Fact]
+        public void CreateAnswer_NO_BadLanguageCode()
+        {
+            string language = "gr_GR";
+
+            var newAnswer = new AnswerModel
+            {
+                Id = 2,
+                Language = language,
+                Text = "That doesn't matter"
+            };
+
+            Assert.Throws<ArgumentException>(() => _facade.CreateAnswer(newAnswer))
+                .Message.Should().Contain(En_resources.QuestionDoesNotExists, En_resources.QuestionDoesNotExists);
+        }
         #endregion
     }
 }

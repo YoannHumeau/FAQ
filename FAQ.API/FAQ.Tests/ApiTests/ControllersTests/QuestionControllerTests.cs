@@ -19,19 +19,21 @@ namespace FAQ.Tests.ApiTests.ControllersTests
     {
         public readonly QuestionController _questionController;
 
-        public readonly Mock<IQuestionService> _mockQuestionService;
         private readonly Mock<ILogger<QuestionController>> _mockLogger;
         private readonly IMapper _mapper;
+        private readonly Mock<IQuestionService> _mockQuestionService;
+        private readonly Mock<IQuestionTranslateService> _mockQuestionTranslateService;
 
         public QuestionControllerTests()
         {
             _mockLogger = new Mock<ILogger<QuestionController>>();
             _mockQuestionService = new Mock<IQuestionService>();
+            _mockQuestionTranslateService = new Mock<IQuestionTranslateService>();
 
             var mapperConfig = new MapperConfiguration(mc => mc.AddProfile(new AutoMapping()));
             _mapper = mapperConfig.CreateMapper();
 
-            _questionController = new QuestionController(_mockLogger.Object, _mapper, _mockQuestionService.Object);
+            _questionController = new QuestionController(_mockLogger.Object, _mapper, _mockQuestionService.Object, _mockQuestionTranslateService.Object);
         }
 
         #region Get all questions
@@ -351,6 +353,40 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             var statusCodeResult = result as StatusCodeResult;
 
             statusCodeResult.StatusCode.Should().Be(500);
+        }
+        #endregion
+
+        #region Update question translate
+        [Fact]
+        public void UpdateQuestionTranslate_OK()
+        {
+            int questionTranslateId = 1;
+
+            var newUpdateQuestionTranslate = new QuestionTranslateModelCreationDto
+            {
+                QuestionText = DataExamples.QuestionsDataExamples.NewQuestionEnglish.TextContent
+            };
+
+            var updatedQuestionTranslate = new QuestionTranslateModel
+            {
+                Id = questionTranslateId,
+                Language = "en_US",
+                QuestionText = newUpdateQuestionTranslate.QuestionText,
+                QuestionModelId = 123
+            };
+
+            _mockQuestionTranslateService.Setup(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText))
+                .Returns(updatedQuestionTranslate);
+
+            var result = _questionController.UpdateQuestionTranslate(newUpdateQuestionTranslate, questionTranslateId);
+            var okObjectresult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectresult);
+            okObjectresult.StatusCode.Should().Be(200);
+
+            okObjectresult.Value.Should().BeEquivalentTo(updatedQuestionTranslate);
+
+            _mockQuestionTranslateService.Verify(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText), Times.Once);
         }
         #endregion
     }

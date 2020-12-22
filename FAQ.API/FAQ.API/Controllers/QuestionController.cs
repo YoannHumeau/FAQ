@@ -25,6 +25,7 @@ namespace FAQ.API.Controllers
         private readonly ILogger<QuestionController> _logger;
         private readonly IMapper _mapper;
         private readonly IQuestionService _questionService;
+        private readonly IQuestionTranslateService _questionTranslateService;
 
         /// <summary>
         /// Default constructor
@@ -32,11 +33,13 @@ namespace FAQ.API.Controllers
         /// <param name="logger">Logger</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="questionService">Question service</param>
-        public QuestionController(ILogger<QuestionController> logger, IMapper mapper, IQuestionService questionService)
+        public QuestionController(ILogger<QuestionController> logger, IMapper mapper, 
+            IQuestionService questionService, IQuestionTranslateService questionTranslateService)
         {
             _logger = logger;
             _mapper = mapper;
             _questionService = questionService;
+            _questionTranslateService = questionTranslateService;
         }
 
         /// <summary>
@@ -119,6 +122,37 @@ namespace FAQ.API.Controllers
                 return NotFound(En_resource.QuestionNotFound);
 
             return Ok(_mapper.Map<QuestionModelDto>(question));
+        }
+
+        /// <summary>
+        /// Update a question translate
+        /// </summary>
+        /// <param name="questionTranslateText">Text of the question translate</param>
+        /// <param name="id">Id of the question translate</param>
+        /// <returns></returns>
+        [HttpPut("translate/{id}")]
+        [ProducesResponseType(typeof(QuestionTranslateModelDto),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(String),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult UpdateQuestionTranslate([FromBody] QuestionTranslateModelCreationDto questionTranslate, int id)
+        {
+            try
+            {
+                var result = _questionTranslateService.UpdateQuestionTranslate(id, questionTranslate.QuestionText);
+                return Ok(result);
+            }
+            catch(ArgumentException e)
+            {
+                return BadRequest(e?.Message);
+            }
+            catch (Exception e)
+            {
+                // Return 500 because of another unknow error
+                _logger.LogError(
+                    $"Creating question Error with questionTranlateId : [{id}] and questionTranslateText : [{questionTranslate.QuestionText}]" +
+                    $"ExceptionMessage: {e.Message}");
+                return StatusCode(500);
+            }
         }
     }
 }

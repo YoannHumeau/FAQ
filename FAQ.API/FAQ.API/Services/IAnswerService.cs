@@ -9,9 +9,15 @@ namespace FAQ.API.Services
     public interface IAnswerService
     {
         /// <summary>
-        /// Create a question
+        /// Create a answer
         /// </summary>
-        /// <param name="question">Answer to insert in database</param>
-        public int CreateAnswer(AnswerModel question);
+        /// <param name="answer">Answer to insert in database</param>
+        public int CreateAnswer(AnswerModel answer);
+
+        /// <summary>
+        /// Update a question
+        /// </summary>
+        /// <param name="answer">Answer to update</param>
+        public AnswerModel UpdateAnswer(AnswerModel answer);
     }
 }

@@ -1,9 +1,6 @@
 ﻿using FAQ.Datas.Facades;
 using FAQ.Datas.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FAQ.API.Services.Implementations
 {
@@ -29,6 +26,12 @@ namespace FAQ.API.Services.Implementations
             }
 
             return _facade.CreateAnswer(answer);
+        }
+
+        /// <inheritdoc/>
+        public AnswerModel UpdateAnswer(AnswerModel answer)
+        {
+            return _facade.UpdateAnswer(answer);
         }
     }
 }

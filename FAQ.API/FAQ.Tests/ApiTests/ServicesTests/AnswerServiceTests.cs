@@ -22,7 +22,7 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             _answerService = new AnswerService(_mockFacade.Object);
         }
 
-        #region CreateAnswer
+        #region Create answer
         [Fact]
         public void CreateAnswer_OK_English()
         {
@@ -81,6 +81,30 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             _mockFacade.Verify(x => x.CreateAnswer(It.IsAny<AnswerModel>()), Times.Never);
         }
         #endregion
+
+        #region Update answer
+        [Fact]
+        public void UpdateAnswer_OK_English()
+        {
+            int answerId = 6;
+            int questionId = 3;
+
+            var updateAnswer = new AnswerModel
+            {
+                Id = answerId,
+                Language = "en_US",
+                Text = "Updated answer",
+                QuestionModelId = questionId
+            };
+
+            _mockFacade.Setup(x => x.UpdateAnswer(updateAnswer)).Returns(updateAnswer);
+
+            var result = _answerService.UpdateAnswer(updateAnswer);
+
+            result.Should().BeEquivalentTo(updateAnswer);
+
+            _mockFacade.Verify(x => x.UpdateAnswer(updateAnswer), Times.Once);
+        }
+        #endregion
     }
 }
-    

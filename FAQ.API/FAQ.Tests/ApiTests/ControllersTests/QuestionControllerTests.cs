@@ -413,6 +413,25 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockQuestionTranslateService.Verify(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText), Times.Once);
         }
+
+        [Fact]
+        public void UpdateQuestionTranslate_NO_WithError500Returned()
+        {
+            int questionTranslateId = 777;
+
+            var newUpdateQuestionTranslate = new QuestionTranslateModelCreationDto
+            {
+                QuestionText = DataExamples.QuestionsDataExamples.NewQuestionEnglish.TextContent
+            };
+
+            _mockQuestionTranslateService.Setup(x => x.UpdateQuestionTranslate(questionTranslateId, newUpdateQuestionTranslate.QuestionText))
+                .Throws(new Exception());
+
+            var result = _questionController.UpdateQuestionTranslate(newUpdateQuestionTranslate, questionTranslateId);
+            var statusCodeResult = result as StatusCodeResult;
+
+            statusCodeResult.StatusCode.Should().Be(500);
+        }
         #endregion
     }
 }

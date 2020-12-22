@@ -144,6 +144,50 @@ namespace FAQ.Tests.ApiTests.ControllersTests
                 },
                 Answers = new List<AnswerModel>
                 {
+                    QuestionsDataExamples.UpdateAnswerEnglish
+                }
+            };
+
+            var answerUpdate = new AnswerModelUpdateDto
+            {
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text
+            };
+
+            var answerReturned = new AnswerModel
+            {
+                Id = answerUpdateId,
+                Language = QuestionsDataExamples.UpdateAnswerEnglish.Language,
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text,
+                QuestionModelId = questionid
+            };
+
+            _mockAnswerService.Setup(x => x.UpdateAnswer(It.IsAny<AnswerModel>())).Returns(answerReturned);
+
+            var result = _answerController.UpdateAnswer(answerUpdate, answerUpdateId);
+            var okObjectResult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectResult);
+            okObjectResult.StatusCode.Should().Be(200);
+
+            okObjectResult.Value.Should().Be(answerReturned);
+
+            _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
+        }
+
+        [Fact]
+        public void UpdateAnswer_OK_French()
+        {
+            int questionid = 2;
+            int answerUpdateId = 4;
+
+            var updateQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.QuestionsListFrench.ElementAt(questionid-1).QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
                     QuestionsDataExamples.UpdateAnswerFrench
                 }
             };

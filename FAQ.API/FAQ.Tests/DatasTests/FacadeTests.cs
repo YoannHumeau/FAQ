@@ -285,7 +285,7 @@ namespace FAQ.Tests.DatasTests
 
         #region Update question translat
         [Fact]
-        public void UpdateQuestionTranslate()
+        public void UpdateQuestionTranslate_OK()
         {
             int questionId = 3;
             int questionTranslateId = 6;
@@ -302,6 +302,16 @@ namespace FAQ.Tests.DatasTests
             var result = _facade.UpdateQuestionTranslate(questionTranslateId, questionTranslateText);
 
             result.Should().BeEquivalentTo(updatedQuestionTranslate);
+        }
+
+        [Fact]
+        public void UpdateQuestiontranslate_NO_BadQuestionTranslateId()
+        {
+            int questionTranslateId = 777 ;
+            string questionTranslateText = "That doesn't matter";
+
+            Assert.Throws<ArgumentException>(() => _facade.UpdateQuestionTranslate(questionTranslateId, questionTranslateText))
+                .Message.Should().Be(En_resources.QuestionTranslateDoesNotExists);
         }
         #endregion
 

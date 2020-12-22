@@ -262,6 +262,47 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
+
+        [Fact]
+        public void UpdateAnswer_NO_WithError500Returned()
+        {
+            int questionid = 2;
+            int answerUpdateId = 999;
+
+            var updateQuestion = new QuestionModel
+            {
+                QuestionTranslates = new List<QuestionTranslateModel>
+                {
+                    QuestionsDataExamples.QuestionsListFrench.ElementAt(questionid-1).QuestionTranslates.ElementAt(0),
+                },
+                Answers = new List<AnswerModel>
+                {
+                    QuestionsDataExamples.UpdateAnswerEnglish
+                }
+            };
+
+            var answerUpdate = new AnswerModelUpdateDto
+            {
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text
+            };
+
+            var answerReturned = new AnswerModel
+            {
+                Id = answerUpdateId,
+                Language = QuestionsDataExamples.UpdateAnswerEnglish.Language,
+                Text = QuestionsDataExamples.UpdateAnswerEnglish.Text,
+                QuestionModelId = questionid
+            };
+
+            _mockAnswerService.Setup(x => x.UpdateAnswer(It.IsAny<AnswerModel>())).Throws(new Exception());
+
+            var result = _answerController.UpdateAnswer(answerUpdate, answerUpdateId);
+            var statusCodeResult = result as StatusCodeResult;
+
+            statusCodeResult.StatusCode.Should().Be(500);
+
+            _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
+        }
         #endregion
     }
 }

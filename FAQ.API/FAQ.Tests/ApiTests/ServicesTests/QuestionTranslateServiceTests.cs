@@ -45,5 +45,18 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.UpdateQuestionTranslate(newQuestionTranslate.Id, newQuestionTranslate.QuestionText), Times.Once);
         }
+
+        [Fact]
+        public void UpdateQuestionTranslate_NO_ThrowException()
+        {
+            int questionTranslateId = 123;
+            string questionTranlateText = "That doesn't matter";
+
+            _mockFacade.Setup(x => x.UpdateQuestionTranslate(questionTranslateId, questionTranlateText)).Throws(new Exception());
+
+            Assert.Throws<Exception>(() => _questionTranslateService.UpdateQuestionTranslate(questionTranslateId, questionTranlateText));
+
+            _mockFacade.Verify(x => x.UpdateQuestionTranslate(questionTranslateId, questionTranlateText), Times.Once);
+        }
     }
 }

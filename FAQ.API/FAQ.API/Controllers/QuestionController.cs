@@ -33,6 +33,7 @@ namespace FAQ.API.Controllers
         /// <param name="logger">Logger</param>
         /// <param name="mapper">Mapper</param>
         /// <param name="questionService">Question service</param>
+        /// <param name="questionTranslateService">QuestionTranslate service</param>
         public QuestionController(ILogger<QuestionController> logger, IMapper mapper, 
             IQuestionService questionService, IQuestionTranslateService questionTranslateService)
         {
@@ -127,7 +128,7 @@ namespace FAQ.API.Controllers
         /// <summary>
         /// Update a question translate
         /// </summary>
-        /// <param name="questionTranslateText">Text of the question translate</param>
+        /// <param name="questionTranslate">QuestionTranslateCreation to update</param>
         /// <param name="id">Id of the question translate</param>
         /// <returns></returns>
         [HttpPut("translate/{id}")]

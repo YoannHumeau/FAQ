@@ -58,5 +58,19 @@ namespace FAQ.Datas.DAO
         {
             return _faqContext.Answers.Find(id);
         }
+
+        internal bool RemoveAnswer(AnswerModel answer)
+        {
+            try
+            {
+                _faqContext.Answers.Remove(answer);
+                _faqContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

@@ -509,5 +509,33 @@ namespace FAQ.Tests.DatasTests
                 .Message.Should().Contain(En_resources.QuestionDoesNotExists, En_resources.QuestionDoesNotExists);
         }
         #endregion
+
+        #region remove answer
+        [Fact]
+        public void RemoveAnswer_OK_French()
+        {
+            int questionId = 1;
+            int answerId = 2;
+            string language = "fr_FR";
+
+            // Get the question before removing answer
+            var facade = new Facade(_dbTests);
+            var questionOrigin = facade.GetQuestion(language, questionId);
+            questionOrigin.Answers.Should().HaveCount(1);
+
+            // Prepare data result for the answer removed
+            questionOrigin.Answers.Remove(questionOrigin.Answers.First());
+
+            //Remove the answer
+            var result = _facade.RemoveAnswer(answerId);
+
+            // Get the question after answer removed
+            facade = new Facade(_dbTests);
+            var questionAfterRemove = facade.GetQuestion(language, questionId);
+
+            // Check if it is good
+            questionAfterRemove.Should().BeEquivalentTo(questionOrigin);
+        }
+        #endregion
     }
 }

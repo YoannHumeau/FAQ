@@ -65,6 +65,6 @@ namespace FAQ.Datas.Facades
         /// </summary>
         /// <param name="answer">Answer to remove</param>
         /// <returns>Boolean from result removing</returns>
-        public bool RemoveAnswer(AnswerModel answer);
+        public bool RemoveAnswer(int answerId);
     }
 }

@@ -564,6 +564,29 @@ namespace FAQ.Tests.DatasTests
             // Check if it is good
             questionAfterRemove.Should().BeEquivalentTo(questionOrigin);
         }
+
+        [Fact]
+        public void RemoveAnswer_NO_BadAnswernId()
+        {
+            int questionId = 1;
+            int answerId = 777;
+            string language = "en_US";
+
+            // Get the question before removing answer
+            var facade = new Facade(_dbTests);
+            var questionOrigin = facade.GetQuestion(language, questionId);
+            questionOrigin.Answers.Should().HaveCount(1);
+
+            Assert.Throws<ArgumentException>(() => _facade.RemoveAnswer(answerId))
+                .Message.Should().Be(En_resources.AnswerDoesNotExists);
+
+            // Get the question after answer removed
+            facade = new Facade(_dbTests);
+            var questionAfterRemove = facade.GetQuestion(language, questionId);
+
+            // Check if it is good
+            questionAfterRemove.Should().BeEquivalentTo(questionOrigin);
+        }
         #endregion
     }
 }

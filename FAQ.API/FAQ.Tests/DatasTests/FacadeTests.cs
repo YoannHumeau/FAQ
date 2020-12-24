@@ -566,7 +566,7 @@ namespace FAQ.Tests.DatasTests
         }
 
         [Fact]
-        public void RemoveAnswer_NO_BadAnswernId()
+        public void RemoveAnswer_NO_BadAnswerId()
         {
             int questionId = 1;
             int answerId = 777;

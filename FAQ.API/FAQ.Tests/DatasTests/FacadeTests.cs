@@ -512,6 +512,32 @@ namespace FAQ.Tests.DatasTests
 
         #region remove answer
         [Fact]
+        public void RemoveAnswer_OK_English()
+        {
+            int questionId = 1;
+            int answerId = 1;
+            string language = "en_US";
+
+            // Get the question before removing answer
+            var facade = new Facade(_dbTests);
+            var questionOrigin = facade.GetQuestion(language, questionId);
+            questionOrigin.Answers.Should().HaveCount(1);
+
+            // Prepare data result for the answer removed
+            questionOrigin.Answers.Remove(questionOrigin.Answers.First());
+
+            //Remove the answer
+            var result = _facade.RemoveAnswer(answerId);
+
+            // Get the question after answer removed
+            facade = new Facade(_dbTests);
+            var questionAfterRemove = facade.GetQuestion(language, questionId);
+
+            // Check if it is good
+            questionAfterRemove.Should().BeEquivalentTo(questionOrigin);
+        }
+
+        [Fact]
         public void RemoveAnswer_OK_French()
         {
             int questionId = 1;

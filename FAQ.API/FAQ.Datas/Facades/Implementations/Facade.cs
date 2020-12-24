@@ -169,6 +169,20 @@ namespace FAQ.Datas.Facades.Implementations
                 return answerDb;
             }
         }
+
+        /// <inheritdoc/>
+        public bool RemoveAnswer(int answerId)
+        {
+            var answerDb = _answerDAO.GetAnswer(answerId);
+
+            if (answerDb == null)
+            {
+                throw new ArgumentException(En_resources.AnswerDoesNotExists);
+            }else
+            {
+                return _answerDAO.RemoveAnswer(answerDb);
+            }
+        }
         #endregion
     }
 }

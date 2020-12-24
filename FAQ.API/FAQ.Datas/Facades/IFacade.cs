@@ -59,5 +59,12 @@ namespace FAQ.Datas.Facades
         /// <param name="answer">Answer to update</param>
         /// <returns>Answer updated</returns>
         public AnswerModel UpdateAnswer(AnswerModel answer);
+
+        /// <summary>
+        /// Remove an answer
+        /// </summary>
+        /// <param name="answer">Answer to remove</param>
+        /// <returns>Boolean from result removing</returns>
+        public bool RemoveAnswer(AnswerModel answer);
     }
 }

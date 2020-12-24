@@ -528,6 +528,7 @@ namespace FAQ.Tests.DatasTests
 
             //Remove the answer
             var result = _facade.RemoveAnswer(answerId);
+            result.Should().BeTrue();
 
             // Get the question after answer removed
             facade = new Facade(_dbTests);
@@ -554,6 +555,7 @@ namespace FAQ.Tests.DatasTests
 
             //Remove the answer
             var result = _facade.RemoveAnswer(answerId);
+            result.Should().BeTrue();
 
             // Get the question after answer removed
             facade = new Facade(_dbTests);

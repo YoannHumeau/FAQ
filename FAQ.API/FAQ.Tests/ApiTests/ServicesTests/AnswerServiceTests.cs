@@ -177,6 +177,20 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.RemoveAnswer(answerId), Times.Once);
         }
+
+        [Fact]
+        public void RemoveAnswer_NO_OtherError()
+        {
+            int answerId = 2;
+            string message = "message";
+
+            _mockFacade.Setup(x => x.RemoveAnswer(answerId)).Throws(new Exception(message));
+
+            Assert.Throws<Exception>(() => _answerService.RemoveAnswer(answerId))
+                .Message.Should().Be(message);
+
+            _mockFacade.Verify(x => x.RemoveAnswer(answerId), Times.Once);
+        }
         #endregion
     }
 }

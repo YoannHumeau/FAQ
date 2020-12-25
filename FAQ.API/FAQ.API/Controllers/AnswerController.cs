@@ -109,5 +109,30 @@ namespace FAQ.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        /// <summary>
+        /// Remove a question
+        /// </summary>
+        /// <param name="id">Id of the answer</param>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult RemoveAnswer(int id)
+        {
+            try
+            {
+                _answerService.RemoveAnswer(id);
+                return Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
     }
 }

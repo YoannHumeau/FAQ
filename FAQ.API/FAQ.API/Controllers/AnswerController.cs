@@ -127,7 +127,7 @@ namespace FAQ.API.Controllers
             }
             catch (ArgumentException e)
             {
-                return BadRequest(e);
+                return BadRequest(e?.Message);
             }
             catch (Exception e)
             {

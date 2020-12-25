@@ -325,6 +325,25 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             _mockAnswerService.Verify((x => x.RemoveAnswer(answerId)), Times.Once);
         }
+
+        [Fact]
+        public void RemoveAnswer_No_BadId()
+        {
+            int answerId = 777;
+
+            _mockAnswerService.Setup(x => x.RemoveAnswer(answerId))
+                .Throws(new ArgumentException(En_resources.AnswerDoesNotExists));
+            
+            var result = _answerController.RemoveAnswer(answerId);
+            var badObjectResult = result as BadRequestObjectResult;
+
+            Assert.NotNull(badObjectResult);
+
+            badObjectResult.StatusCode.Should().Be(400);
+            badObjectResult.Value.Should().Be(En_resources.AnswerDoesNotExists);
+
+            _mockAnswerService.Verify(x => x.RemoveAnswer(answerId), Times.Once);
+        }
         #endregion
     }
 }

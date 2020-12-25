@@ -123,7 +123,7 @@ namespace FAQ.API.Controllers
             try
             {
                 _answerService.RemoveAnswer(id);
-                return Ok();
+                return Ok("");
             }
             catch (ArgumentException e)
             {

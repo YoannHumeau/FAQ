@@ -306,5 +306,25 @@ namespace FAQ.Tests.ApiTests.ControllersTests
             _mockAnswerService.Verify(x => x.UpdateAnswer(It.IsAny<AnswerModel>()), Times.Once);
         }
         #endregion
+
+        #region Remove answer
+
+        [Fact]
+        public void RemoveAnswer_OK()
+        {
+            int answerId = 1;
+
+            _mockAnswerService.Setup(x => x.RemoveAnswer(answerId)).Returns(true);
+
+            var result = _answerController.RemoveAnswer(answerId);
+            var okObjectresult = result as OkObjectResult;
+
+            Assert.NotNull(okObjectresult);
+
+            okObjectresult.StatusCode.Should().Be(200);
+
+            _mockAnswerService.Verify((x => x.RemoveAnswer(answerId)), Times.Once);
+        }
+        #endregion
     }
 }

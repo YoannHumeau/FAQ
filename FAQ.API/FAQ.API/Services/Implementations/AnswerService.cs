@@ -33,5 +33,11 @@ namespace FAQ.API.Services.Implementations
         {
             return _facade.UpdateAnswer(answer);
         }
+
+        /// <inheritdoc/>
+        public bool RemoveAnswer(int id)
+        {
+            return _facade.RemoveAnswer(id);
+        }
     }
 }

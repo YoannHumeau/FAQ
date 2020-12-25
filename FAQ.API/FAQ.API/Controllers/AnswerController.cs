@@ -131,7 +131,11 @@ namespace FAQ.API.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                // Return 500 because of another unknow error
+                _logger.LogError(
+                    $"Remove answer error on answer id : [{id}]" +
+                    $"ExceptionMessage: {e?.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

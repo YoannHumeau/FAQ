@@ -308,7 +308,6 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         #endregion
 
         #region Remove answer
-
         [Fact]
         public void RemoveAnswer_OK()
         {
@@ -327,7 +326,7 @@ namespace FAQ.Tests.ApiTests.ControllersTests
         }
 
         [Fact]
-        public void RemoveAnswer_No_BadId()
+        public void RemoveAnswer_NO_BadId()
         {
             int answerId = 777;
 
@@ -341,6 +340,21 @@ namespace FAQ.Tests.ApiTests.ControllersTests
 
             badObjectResult.StatusCode.Should().Be(400);
             badObjectResult.Value.Should().Be(En_resources.AnswerDoesNotExists);
+
+            _mockAnswerService.Verify(x => x.RemoveAnswer(answerId), Times.Once);
+        }
+
+        [Fact]
+        public void RemoveAnswer_NO_WithError500Returned()
+        {
+            int answerId = 777;
+
+            _mockAnswerService.Setup(x => x.RemoveAnswer(answerId)).Throws(new Exception());
+
+            var result = _answerController.RemoveAnswer(answerId);
+            var statusCodeResult = result as StatusCodeResult;
+
+            statusCodeResult.StatusCode.Should().Be(500);
 
             _mockAnswerService.Verify(x => x.RemoveAnswer(answerId), Times.Once);
         }

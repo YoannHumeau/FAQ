@@ -150,5 +150,19 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             _mockFacade.Verify(x => x.UpdateAnswer(updateAnswer), Times.Once);
         }
         #endregion
+
+        #region Remove answer
+        [Fact]
+        public void removeAnswer_OK()
+        {
+            int answerID = 2;
+
+            _mockFacade.Setup(x => x.RemoveAnswer(answerID)).Returns(true);
+
+            var result = _answerService.RemoveAnswer(answerID);
+
+            _mockFacade.Verify(x => x.RemoveAnswer(answerID), Times.Once);
+        }
+        #endregion
     }
 }

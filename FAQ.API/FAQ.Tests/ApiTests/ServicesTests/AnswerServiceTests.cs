@@ -7,6 +7,7 @@ using Moq;
 using System;
 using Xunit;
 using FAQ.API.Resources;
+using FAQ.Datas.Resources;
 
 namespace FAQ.Tests.ApiTests.ServicesTests
 {
@@ -153,7 +154,7 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
         #region Remove answer
         [Fact]
-        public void removeAnswer_OK()
+        public void RemoveAnswer_OK()
         {
             int answerID = 2;
 
@@ -162,6 +163,19 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             var result = _answerService.RemoveAnswer(answerID);
 
             _mockFacade.Verify(x => x.RemoveAnswer(answerID), Times.Once);
+        }
+
+        [Fact]
+        public void RemoveAnswer_NO_BadId()
+        {
+            int answerId = 777;
+
+            _mockFacade.Setup(x => x.RemoveAnswer(answerId)).Throws(new ArgumentException(En_resources.AnswerDoesNotExists));
+
+            Assert.Throws<ArgumentException>(() => _answerService.RemoveAnswer(answerId))
+                .Message.Should().Be(En_resources.AnswerDoesNotExists);
+
+            _mockFacade.Verify(x => x.RemoveAnswer(answerId), Times.Once);
         }
         #endregion
     }

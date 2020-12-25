@@ -23,7 +23,7 @@ namespace FAQ.API.Services
         /// <summary>
         /// Remove an answer
         /// </summary>
-        /// <param name="answerId">Id of the answer</param>
+        /// <param name="id">Id of the answer</param>
         /// <returns>Boolean that say removing is OK and a string message</returns>
         public bool RemoveAnswer(int id);
     }

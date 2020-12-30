@@ -102,7 +102,7 @@ namespace FAQ.Datas.Facades.Implementations
 
             if (question == null)
             { 
-                return false;
+                throw new ArgumentException(En_resources.QuestionDoesNotExists);
             }
 
             try

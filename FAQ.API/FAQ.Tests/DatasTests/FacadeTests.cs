@@ -277,9 +277,8 @@ namespace FAQ.Tests.DatasTests
         {
             var questionId = 99999;
 
-            var result = _facade.RemoveQuestion(questionId);
-
-            result.Should().BeFalse();
+            Assert.Throws<ArgumentException>(() => _facade.RemoveQuestion(questionId))
+                .Message.Should().Be(En_resources.QuestionDoesNotExists);
         }
         #endregion
 

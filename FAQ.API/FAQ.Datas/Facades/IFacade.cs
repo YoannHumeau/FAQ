@@ -38,7 +38,7 @@ namespace FAQ.Datas.Facades
         /// <summary>
         /// Remove a question
         /// </summary>
-        /// <param name="question"></param>
+        /// <param name="id">Id of the question</param>
         public bool RemoveQuestion(int id);
 
         /// <summary>

@@ -209,5 +209,22 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             newQuestion.Answers.ElementAt(0).Language = "en_US";
         }
         #endregion
+
+        #region remove question
+
+        [Fact]
+        public void RemoveQuestion_OK()
+        {
+            int questionIdToRemove = 2;
+
+            _mockFacade.Setup(x => x.RemoveQuestion(questionIdToRemove)).Returns(true);
+
+            var result = _questionService.RemoveQuestion(questionIdToRemove);
+
+            result.Should().BeTrue();
+
+            _mockFacade.Verify(x => x.RemoveQuestion(questionIdToRemove), Times.Once);
+        }
+        #endregion
     }
 }

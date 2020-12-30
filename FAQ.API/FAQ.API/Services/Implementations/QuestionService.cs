@@ -56,5 +56,11 @@ namespace FAQ.API.Services.Implementations
 
             return _facade.GetQuestion(language, id);
         }
+
+        ///<inheritdoc/>
+        public bool RemoveQuestion(int id)
+        {
+            return _facade.RemoveQuestion(id);
+        }
     }
 }

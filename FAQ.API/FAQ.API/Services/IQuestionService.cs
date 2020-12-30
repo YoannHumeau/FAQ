@@ -28,5 +28,12 @@ namespace FAQ.API.Services
         /// <param name="id">Question ID</param>
         /// <returns>Question</returns>
         public QuestionModel GetQuestion(string language, int id);
+
+        /// <summary>
+        /// Remove a question
+        /// </summary>
+        /// <param name="id">Id of the question to remove</param>
+        /// <returns>Boolean if removed true</returns>
+        public bool RemoveQuestion(int id);
     }
 }

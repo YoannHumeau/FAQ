@@ -5,6 +5,7 @@ using FAQ.API.Services;
 using FAQ.API.Services.Implementations;
 using FAQ.Datas.Facades;
 using FAQ.Datas.Models;
+using FAQ.Datas.Resources;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -222,6 +223,19 @@ namespace FAQ.Tests.ApiTests.ServicesTests
             var result = _questionService.RemoveQuestion(questionIdToRemove);
 
             result.Should().BeTrue();
+
+            _mockFacade.Verify(x => x.RemoveQuestion(questionIdToRemove), Times.Once);
+        }
+
+        [Fact]
+        public void RemoveQuestion_NO_BadQuestionId()
+        {
+            int questionIdToRemove = 777;
+
+            _mockFacade.Setup(x => x.RemoveQuestion(questionIdToRemove)).Throws(new ArgumentException(En_resources.QuestionDoesNotExists));
+
+            Assert.Throws<ArgumentException>(() => _questionService.RemoveQuestion(questionIdToRemove))
+                .Message.Should().Be(En_resources.QuestionDoesNotExists);
 
             _mockFacade.Verify(x => x.RemoveQuestion(questionIdToRemove), Times.Once);
         }

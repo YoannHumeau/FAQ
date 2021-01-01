@@ -239,6 +239,19 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.RemoveQuestion(questionIdToRemove), Times.Once);
         }
-        #endregion
+
+        [Fact]
+        public void RemoveQuestion_NO_OtherError()
+        {
+            int questionIdToRemove = 777;
+            string message = "message";
+
+            _mockFacade.Setup(x => x.RemoveQuestion(questionIdToRemove)).Throws(new Exception(message));
+
+            Assert.Throws<Exception>(() => _questionService.RemoveQuestion(questionIdToRemove))
+                .Message.Should().Be(message);
+
+            _mockFacade.Verify(x => x.RemoveQuestion(questionIdToRemove), Times.Once);
+        }
     }
 }

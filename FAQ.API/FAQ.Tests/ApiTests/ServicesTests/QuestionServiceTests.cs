@@ -253,5 +253,6 @@ namespace FAQ.Tests.ApiTests.ServicesTests
 
             _mockFacade.Verify(x => x.RemoveQuestion(questionIdToRemove), Times.Once);
         }
+        #endregion
     }
 }
